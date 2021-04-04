@@ -1,0 +1,41 @@
+.TH simple_shell "4 April 2021" "14 days Duo Project"
+.SH NAME
+.B simple_shell
+.SH SYNOPSIS
+.B #include \(dqholberton.h\(dq
+.sp
+.B int simple-shell(const char
+*
+.I format
+.B , ...);
+.sp
+.RB _printf
+.I FORMAT
+.B [ARGUMENTS]
+.SH DESCRIPTION
+.BR simple_shell
+is function that is meant to imitate the working of the shell.
+
+It is supposed to work in a basically identifcal manner to the real one.
+.sp
+.RB On
+.RB success,
+.RI simple-shell
+can do very many things.
+.sp
+.RI Return " -1"
+if
+.SH OPTIONS
+.RB
+.SH NOTES
+.RB
+.SH Exemple
+simple-shell ls
+
+.B generate-authors.sh  man_simple-shell  README.md
+.SH BUGS
+Not yet.
+.SH AUTHOR
+Nathan Lapeyre and Octave Collombel for HolbertonSchool project.
+.SH SEE ALSO
+.RB
