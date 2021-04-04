@@ -27,9 +27,9 @@ int main(void)
 		}
 		else if (pids[ite] == 0)
 		{
-			printf("$ ");
+			write(1, "$ ", 2);
 			linenum = getline(&buffer, &buffsize, stdin);
-			printf("\n");
+
 			for (ite2 = 0, str = buffer; ; ite2++, str = NULL)
 			{
 				token = strtok_r(str, " \n", &saveptr);
@@ -42,16 +42,12 @@ int main(void)
 			{
 				perror("Error:");
 			}
-			printf("This shouldn't ever get printed\n");
 			exit(0);
 		}
 
 		/* Wait for children to exit */
 		pid = wait(&status);
-		printf("\n");
-		printf("Child process with PID %d exited\n", pid);
-		printf("___________________________________________________\n");
-		printf("\n");
+		pid = pid;
 	}
 	return (linenum);
 }
