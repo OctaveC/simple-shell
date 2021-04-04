@@ -5,21 +5,27 @@
  *
  * Return: 1 if it fails, or 0 if it succeeds.
  */
-int main(void)
+int main(int argc, char *argv[])
 {
 	pid_t pids[5];
-	char *buffer = NULL, *str, *token;
+	char *buffer, *str, *token;
 	size_t buffsize = 0;
-	int ite;
-	int num = 1, ite2, linenum = -1;
+	int ite = 0;
+	int ite2, linenum = -1;
 	int status;
 	pid_t pid;
-	char *argv[10];
+	char *token_array[50];
 	char *saveptr;
 
-        /* Start children */
-	for (ite = 0; ite <= num; ++num)
+	/* Start children */
+	while (buffer != NULL)
 	{
+		write(1, "$ ", 2);
+		if (getline(&buffer, &buffsize, stdin) == EOF)
+		{
+			write(STDIN_FILENO, "\n", 1);
+			break;
+		}
 		if ((pids[ite] = fork()) < 0)
 		{
 			perror("fuck");
@@ -27,20 +33,17 @@ int main(void)
 		}
 		else if (pids[ite] == 0)
 		{
-			write(1, "$ ", 2);
-			linenum = getline(&buffer, &buffsize, stdin);
-
-			for (ite2 = 0, str = buffer; ; ite2++, str = NULL)
+			for (ite2 = 0, str = buffer;; ite2++, str = NULL)
 			{
 				token = strtok_r(str, " \n", &saveptr);
 				if (token == NULL)
 					break;
-				argv[ite2] = token;
+				token_array[ite2] = token;
 			}
-			argv[ite2] = NULL;
-			if (execve(argv[0], argv, NULL) == -1)
+			token_array[ite2] = NULL;
+			if (execve(token_array[0], token_array, NULL) == -1)
 			{
-				perror("Error:");
+				perror(argv[0]);
 			}
 			exit(0);
 		}
@@ -49,5 +52,6 @@ int main(void)
 		pid = wait(&status);
 		pid = pid;
 	}
+	argc = argc;
 	return (linenum);
 }
