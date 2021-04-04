@@ -1,7 +1,7 @@
 #include "shell-header.h"
 
 /**
- * main - execv+fork+wait demonstration
+ * main - execv+fork+wait demonstration (WIP)
  *
  * Return: 1 if it fails, or 0 if it succeeds.
  */
