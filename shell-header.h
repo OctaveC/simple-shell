@@ -15,6 +15,7 @@ typedef struct list_s
 
 } list_t;
 
+char *_which(char *argv[], char *str);
 int _strlen(const char *s);
 char *_strdup(char *str);
 char *_getenv(char *name);
@@ -23,4 +24,4 @@ list_t *createNodeList(list_t **head, const char *str);
 int _setenv(char *name, const char *value, int overwrite);
 int _unsetenv(char *name);
 
-#endif /* SHELL_H */
+#endif

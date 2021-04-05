@@ -4,7 +4,6 @@ void all_execves(char **token_array, char *name)
 {
 	char *str;
 	char *truc;
-	int ite = 0, ite2 = 0, ite3 = 0;
 /*	char *test_array[1];
 	test_array[1] = '\0'; */
 
@@ -16,22 +15,10 @@ void all_execves(char **token_array, char *name)
 		ite5++;
 		}*/
 	truc = _which(token_array, str);
-/*	printf("%s\n", truc); */
+	printf("%s\n", truc);
 /*	token_array[1] = NULL; */
 
-/*	while (*token_array[ite] != '\0')
-		ite++;
-
-	char *static_token_array[ite + 1];
-
-	while (ite2 < ite)
-	{
-		strcat(static_token_array[ite2], token_array[ite2]);
-		ite2++;
-	}
-	static_token_array[ite2] = '\0';
-
-	while (ite3 <= 9)
+/*	while (ite3 <= 9)
 	{
 		free(token_array[ite3]);
 		ite3++;
