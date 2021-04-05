@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
 	pid_t pids[5];
-	char *buffer, *str, *token;
+	char *buffer = NULL, *str, *token;
 	size_t buffsize = 0;
 	int ite = 0;
 	int ite2, linenum = -1;
@@ -18,11 +18,13 @@ int main(int argc, char *argv[])
 	char *saveptr;
 
 	/* Start children */
-	while (buffer != NULL)
+	for (;;)
 	{
+		buffer = NULL;
 		write(1, "$ ", 2);
 		if (getline(&buffer, &buffsize, stdin) == EOF)
 		{
+			free(buffer);
 			write(STDIN_FILENO, "\n", 1);
 			break;
 		}
@@ -43,6 +45,7 @@ int main(int argc, char *argv[])
 			token_array[ite2] = NULL;
 			if (execve(token_array[0], token_array, NULL) == -1)
 			{
+				free(buffer);
 				perror(argv[0]);
 			}
 			exit(0);
@@ -51,6 +54,7 @@ int main(int argc, char *argv[])
 		/* Wait for children to exit */
 		pid = wait(&status);
 		pid = pid;
+		free(buffer);
 	}
 	argc = argc;
 	return (linenum);
