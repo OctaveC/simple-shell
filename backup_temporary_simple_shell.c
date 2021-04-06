@@ -140,6 +140,8 @@ int main(int argc, char *argv[])
 	pid_t pids[20];
 	char *name = argv[0];
 
+	signal(SIGINT, SIG_IGN);
+
 	/* Start children */
 	for (ite = 0; ; ite++)
 	{

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
 typedef struct list_s
 {
@@ -14,6 +15,8 @@ typedef struct list_s
 	struct list_s *prev;
 
 } list_t;
+
+extern char **environ;
 
 char *_which(char *argv[], char *str);
 int _strlen(const char *s);

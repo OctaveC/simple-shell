@@ -3,7 +3,6 @@ char *_getenv(char *name)
 {
 	char *envar, *tmp;
 	int ite = 0, ite2 = 0;
-	extern char **environ;
 
 	envar = NULL;
 	while (environ[ite2] != NULL)
