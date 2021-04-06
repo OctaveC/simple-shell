@@ -4,7 +4,6 @@ void all_execves(char **token_array, char *name)
 {
 	char *str;
 	char *truc;
-	int ite = 0, ite2 = 0, ite3 = 0;
 /*	char *test_array[1];
 	test_array[1] = '\0'; */
 
@@ -16,22 +15,10 @@ void all_execves(char **token_array, char *name)
 		ite5++;
 		}*/
 	truc = _which(token_array, str);
-/*	printf("%s\n", truc); */
+	printf("%s\n", truc);
 /*	token_array[1] = NULL; */
 
-/*	while (*token_array[ite] != '\0')
-		ite++;
-
-	char *static_token_array[ite + 1];
-
-	while (ite2 < ite)
-	{
-		strcat(static_token_array[ite2], token_array[ite2]);
-		ite2++;
-	}
-	static_token_array[ite2] = '\0';
-
-	while (ite3 <= 9)
+/*	while (ite3 <= 9)
 	{
 		free(token_array[ite3]);
 		ite3++;
@@ -98,7 +85,7 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 	}
 	for (ite2 = 0, str = buffer;; ite2++, str = NULL)
 	{
-		token = strtok_r(str, " \n", &saveptr);
+		token = _strtok(str, " \n", &saveptr);
 		if (token == NULL)
 			break;
 		printf("test_%s_token\n", token);
@@ -139,6 +126,12 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 	}
 }
 
+void CtrlC(int i)
+{
+	i = i;
+	write(1,"\n$ ", 3);
+}
+
 /**
  * main - execv+fork+wait demonstration (WIP)
  *
@@ -152,6 +145,8 @@ int main(int argc, char *argv[])
 	pid_t pid;
 	pid_t pids[20];
 	char *name = argv[0];
+
+	signal(SIGINT, CtrlC);
 
 	/* Start children */
 	for (ite = 0; ; ite++)
