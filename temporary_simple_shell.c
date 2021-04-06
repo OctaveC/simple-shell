@@ -4,21 +4,21 @@ void all_execves(char **token_array, char *name)
 {
 	char *str;
 	char *truc;
-/*	char *test_array[1];
+	/*	char *test_array[1];
 	test_array[1] = '\0'; */
 
 	str = getenv("PATH");
-/*	printf("test_%s_test\n", str); */
-/*	while (*token_array[ite5] != '\0')
+	/*	printf("test_%s_test\n", str); */
+	/*	while (*token_array[ite5] != '\0')
 	{
 		printf("test_%s_testTRUC3\n", token_array[ite5]);
 		ite5++;
 		}*/
 	truc = _which(token_array, str);
 	printf("%s\n", truc);
-/*	token_array[1] = NULL; */
+	/*	token_array[1] = NULL; */
 
-/*	while (ite3 <= 9)
+	/*	while (ite3 <= 9)
 	{
 		free(token_array[ite3]);
 		ite3++;
@@ -27,9 +27,10 @@ void all_execves(char **token_array, char *name)
 
 	if (execve(truc, token_array, NULL) == -1)
 	{
-		  perror(name);
+		perror(name);
+		exit(0);
 	}
-/*	if (execve(token_array[0], token_array, NULL) == -1)
+	/*	if (execve(token_array[0], token_array, NULL) == -1)
 	{
 		printf("AGAIN!\n");
 		placeholder = token_array[0];
@@ -40,9 +41,9 @@ void all_execves(char **token_array, char *name)
 			{
 				perror(name);
 				} */
-			/* printf("%s\n", token); */
+	/* printf("%s\n", token); */
 
-/*printf("%s_token\n", token);
+	/*printf("%s_token\n", token);
   printf("%s_token_array\n", token_array[]); */
 
 	/*	token2 = calloc(100, sizeof(char));
@@ -92,7 +93,7 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 		token_array[ite2] = token;
 		printf("test_%s_token_array\n", token_array[ite2]);
 	}
-/*	token_array[ite2] = NULL; */
+	/*	token_array[ite2] = NULL; */
 	while (*token_array[ite4] != '\0')
 	{
 		printf("test_%s_testHERE\n", token_array[ite4]);
@@ -100,11 +101,11 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 	}
 	token_array[ite2] = NULL;
 
-/*	free(buffer); */
+	/*	free(buffer); */
 
 	ite4 = 0;
 	printf("\ntruc\n");
-/*	while (*token_array[ite4] != '\0')
+	/*	while (*token_array[ite4] != '\0')
 	{
 		printf("test_%s_testHERE2\n", token_array[ite4]);
 		ite4++;
@@ -129,7 +130,7 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 void CtrlC(int i)
 {
 	i = i;
-	write(1,"\n$ ", 3);
+	write(1, "\n$ ", 3);
 }
 
 /**
@@ -149,7 +150,7 @@ int main(int argc, char *argv[])
 	signal(SIGINT, CtrlC);
 
 	/* Start children */
-	for (ite = 0; ; ite++)
+	for (ite = 0;; ite++)
 	{
 		buffer = calloc(sizeof(char), 300);
 		write(1, "$ ", 2);
