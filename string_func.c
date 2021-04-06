@@ -1,8 +1,13 @@
 #include "shell-header.h"
 
 /**
- * 
- * 
+ * _strtok - Break string into multiple tokens using separators.
+ * @str: string to check.
+ * @sep: separator characters
+ * @saveptr: a pointer that maintain the successive
+ * calls during the string check.
+ * Return: return a pointer to the first token found in the string;
+ * otherwise return NULL if there's no tokens left.
  */
 char *_strtok(char *str, char *sep, char **saveptr)
 {
@@ -78,15 +83,16 @@ unsigned int _strcspn(char *s1, char *s2)
 {
 	unsigned int len = 0;
 
-	while (s1[len]) /* till it's different from '\0' */
+	while (*s1)
 	{
-		if (_strchr(s2, s1[len]) != NULL)
+		if (_strchr(s2, *s1))
 		{
-			return (len); /* return s1 char position if found in s2 */
+			return (len);
 		}
 		else
 		{
-			break;
+			s1++;
+			len++;
 		}
 	}
 
@@ -101,21 +107,20 @@ unsigned int _strcspn(char *s1, char *s2)
  */
 char *_strchr(char *str, char c)
 {
-	while (*str != '\0')
+	char *find = NULL;
+
+	if (str != NULL)
 	{
-		if (*str == c)
-		{
-			return (str);
-		}
-		str++;
+		do {
+			if (*str == c)
+			{
+				find = str;
+				break;
+			}
+		} while (*str++);
 	}
 
-	if (*str == c)
-	{
-		return (str);
-	}
-
-	return (NULL);
+	return (find);
 }
 
 /**
