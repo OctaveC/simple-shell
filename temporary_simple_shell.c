@@ -12,23 +12,27 @@ void all_execves(char **token_array, char *name)
 	if (execve(truc, token_array, NULL) == -1)
 	{
 		perror(name);
+		free(token_array);
 		exit(0);
 	}
 }
 
-void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
+void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
-	char *str, *token;
-	size_t buffsize = 0;
-	int ite2, ite3 = 0;
-	char **token_array, *saveptr;
+	pids[*(ite)] = fork();
 
-	token_array = calloc(sizeof(char), 10);
-	while (ite3 <= 9)
-	{
-		token_array[ite3] = calloc(sizeof(char), 300);
-		ite3++;
-	}
+	if (pids[*(ite)] < 0)
+		perror(name);
+	else if (pids[*(ite)] == 0)
+		all_execves(token_array, name);
+}
+
+void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
+{
+	char *token, *str;
+	size_t buffsize;
+	int ite2, ite3 = 0;
+	char **token_array, *saveptr, *buffer = NULL;
 
 	if (getline(&buffer, &buffsize, stdin) == EOF)
 	{
@@ -36,23 +40,31 @@ void getline_strtok_and_fork(int *ite, char *buffer, pid_t pids[], char *name)
 		write(STDIN_FILENO, "\n", 1);
 		exit(0);
 	}
-	for (ite2 = 0, str = buffer;; ite2++, str = NULL)
+	token_array = calloc(sizeof(char *), 10);
+
+	str = buffer;
+	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " \n", &saveptr);
 		if (token == NULL)
+		{
+			free(buffer);
 			break;
-		token_array[ite2] = token;
+		}
+		token_array[ite2] = calloc(sizeof(char), 200);
+		strcat(token_array[ite2], token);
 	}
-	token_array[ite2] = NULL;
+	token_array[ite2] = '\0';
 
-	if ((pids[*(ite)] = fork()) < 0)
+	create_child(pids, ite, token_array, name);
+
+	ite3 = 0;
+	while (ite3 < ite2)
 	{
-		perror(name);
+		free(token_array[ite3]);
+		ite3++;
 	}
-	else if (pids[*(ite)] == 0)
-	{
-		all_execves(token_array, name);
-	}
+	free(token_array);
 }
 
 void CtrlC(int i)
@@ -68,7 +80,6 @@ void CtrlC(int i)
  */
 int main(int argc, char *argv[])
 {
-	char *buffer;
 	int ite = 0;
 	int status;
 	pid_t pid;
@@ -80,11 +91,8 @@ int main(int argc, char *argv[])
 	/* Start children */
 	for (ite = 0;; ite++)
 	{
-		buffer = calloc(sizeof(char), 300);
 		write(1, "$ ", 2);
-		getline_strtok_and_fork(&ite, buffer, &pids[20], name);
-
-		/* Wait for children to exit */
+		getline_strtok_and_fork(&ite, &pids[20], name);
 		pid = wait(&status);
 		pid = pid;
 	}
