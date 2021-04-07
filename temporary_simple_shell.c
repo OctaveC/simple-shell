@@ -2,13 +2,25 @@
 
 void all_execves(char **token_array, char *name)
 {
-	char *str;
+	char *str, *str2;
 	char *truc;
 	int ite3 = 0;
+	int ite2 = 0;
+/*	extern char **environ; */
+
+/*	while (environ[ite2] != NULL)
+	{
+		printf("%s\n", environ[ite2]);
+		ite2++;
+	} */
 
 	str = getenv("PATH");
 
-	truc = _which(token_array, str);
+	str2 = strdup(str);
+
+	truc = _which(token_array, str2);
+
+	free(str2);
 
 	if (execve(truc, token_array, environ) == -1)
 	{
