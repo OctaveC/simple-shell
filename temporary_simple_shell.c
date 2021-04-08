@@ -5,7 +5,6 @@ void all_execves(char **token_array, char *name)
 	char *str, *str2;
 	char *truc;
 	int ite3 = 0;
-	int ite2 = 0;
 	/*	extern char **environ; */
 
 	/*	while (environ[ite2] != NULL)
@@ -39,12 +38,17 @@ void all_execves(char **token_array, char *name)
 
 void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
+	int status;
 	pids[*(ite)] = fork();
 
-	if (pids[*(ite)] < 0)
-		perror(name);
-	else if (pids[*(ite)] == 0)
+	/* if (pids[*(ite) < 0])
+	{
+		perror(name)
+	} */
+	if (pids[*(ite)] == 0)
 		all_execves(token_array, name);
+	else
+		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
@@ -119,8 +123,6 @@ void CtrlC(int i)
 int main(int argc, char *argv[])
 {
 	int ite = 0;
-	int status;
-	pid_t pid;
 	pid_t pids[20];
 	char *name = argv[0];
 
@@ -129,10 +131,8 @@ int main(int argc, char *argv[])
 	/* Start children */
 	for (ite = 0;; ite++)
 	{
-		write(1, "$ ", 2);
+		write(STDIN_FILENO, "$ ", 2);
 		getline_strtok_and_fork(&ite, &pids[20], name);
-		pid = wait(&status);
-		pid = pid;
 	}
 	argc = argc;
 	return (0);
