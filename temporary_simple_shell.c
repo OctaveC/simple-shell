@@ -6,9 +6,9 @@ void all_execves(char **token_array, char *name)
 	char *truc;
 	int ite3 = 0;
 	int ite2 = 0;
-/*	extern char **environ; */
+	/*	extern char **environ; */
 
-/*	while (environ[ite2] != NULL)
+	/*	while (environ[ite2] != NULL)
 	{
 		printf("%s\n", environ[ite2]);
 		ite2++;
@@ -55,14 +55,13 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	buffer = _getline();
 
-/*	if (buffer[0] == EOF)
+	/*	if (buffer[0] == EOF)
 	{
 		free(buffer);
 		write(STDIN_FILENO, "\n", 1);
 		exit(0);
 	} */
 	token_array = calloc(sizeof(char *), 10);
-
 
 	while (buffer[len] != '\0')
 	{
@@ -77,6 +76,11 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	str = buffer;
 
+	if (strcmp("exit", str) == 0)
+	{
+		exit(0);
+	}
+
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " ", &saveptr);
@@ -88,7 +92,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 		token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(token_array[ite2], token);
 	}
-/*	token_array[ite2] = '\0'; */
+	/*	token_array[ite2] = '\0'; */
 
 	create_child(pids, ite, token_array, name);
 
