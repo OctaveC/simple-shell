@@ -7,14 +7,13 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
-typedef struct list_s
+typedef struct sh_s
 {
 	char *data;
-	struct list_s *next;
-	struct list_s *prev;
 
-} list_t;
+} sh_t;
 
 extern char **environ;
 
@@ -26,9 +25,8 @@ char *_strtok(char *str, char *sep, char **saveptr);
 unsigned int _strspn(char *s1, char *s2);
 unsigned int _strcspn(char *s1, char *s2);
 char *_strchr(char *str, char c);
-size_t print_list(const list_t *h);
-list_t *createNodeList(list_t **head, const char *str);
 int _setenv(char *name, const char *value, int overwrite);
 int _unsetenv(char *name);
+char *_getline(void);
 
 #endif

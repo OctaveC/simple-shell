@@ -50,16 +50,17 @@ void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 {
 	char *token, *str;
-	size_t buffsize;
 	int ite2, ite3 = 0, len = 0;
-	char **token_array, *saveptr, *buffer = NULL;
+	char **token_array, *saveptr, *buffer;
 
-	if (getline(&buffer, &buffsize, stdin) == EOF)
+	buffer = _getline();
+
+/*	if (buffer[0] == EOF)
 	{
 		free(buffer);
 		write(STDIN_FILENO, "\n", 1);
 		exit(0);
-	}
+	} */
 	token_array = calloc(sizeof(char *), 10);
 
 
