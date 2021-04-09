@@ -11,7 +11,8 @@ void all_execves(char **token_array, char *name)
 	{
 		printf("%s\n", environ[ite2]);
 		ite2++;
-	} */
+	} */ /*
+	setenv("PATH", ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games", 1); */
 
 	str = getenv("PATH");
 
@@ -38,33 +39,42 @@ void all_execves(char **token_array, char *name)
 
 void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
+
+	pid_t pid;
 	int status;
+
 	pids[*(ite)] = fork();
 
-	/* if (pids[*(ite) < 0])
+	if (pids[*(ite)] == -1)
 	{
-		perror(name)
-	} */
-	if (pids[*(ite)] == 0)
+		perror(name);
+		exit(0);
+	}
+	else if (pids[*(ite)] == 0)
 		all_execves(token_array, name);
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
+
 }
 
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 {
 	char *token, *str;
 	int ite2, ite3 = 0, len = 0;
-	char **token_array, *saveptr, *buffer;
+	char **token_array, *saveptr, *buffer;/* *buffer = calloc(sizeof(char), 300); */
+	size_t buffsize;
 
 	buffer = _getline();
 
-	/*	if (buffer[0] == EOF)
+/*	if (getline(&buffer, &buffsize, stdin) == EOF)
+
+	if (buffer[0] == EOF)
 	{
 		free(buffer);
 		write(STDIN_FILENO, "\n", 1);
 		exit(0);
 	} */
+
 	token_array = calloc(sizeof(char *), 10);
 
 	while (buffer[len] != '\0')
@@ -128,7 +138,6 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, CtrlC);
 
-	/* Start children */
 	for (ite = 0;; ite++)
 	{
 		write(STDIN_FILENO, "$ ", 2);
