@@ -4,11 +4,14 @@ char *_which(char *argv[], char *str)
 {
 	char *token, *saveptr = NULL, *token2;
 	int ite = 0;
-/*
-	if (access(argv[0], F_OK) == 0)
+
+/*	if (str[0] == ':')
 	{
-		return (argv[0]);
-	} */
+		if (access(argv[0], F_OK) == 0)
+		{
+			return (argv[0]);
+		}
+		} */
 	for (ite = 1;; ite++, str = NULL)
 	{
 		token = _strtok(str, ":=", &saveptr);
