@@ -5,15 +5,6 @@ void all_execves(char **token_array, char *name)
 	char *str, *str2;
 	char *truc;
 	int ite3 = 0;
-	/*	extern char **environ; */
-
-	/*	while (environ[ite2] != NULL)
-	{
-		printf("%s\n", environ[ite2]);
-		ite2++;
-	} */
-	/*
-	setenv("PATH", ":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games", 1); */
 
 	str = getenv("PATH");
 
@@ -60,41 +51,32 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 	void (*f)(int);
 	char *token, *str;
 	int ite2, ite3 = 0, len = 0;
-	char **token_array, *saveptr, *buffer; /* *buffer = calloc(sizeof(char), 300); */
+
+	char **token_array, *saveptr, *buffer;
 
 	buffer = _getline();
-
-	/*	if (getline(&buffer, &buffsize, stdin) == EOF)
-
-	if (buffer[0] == EOF)
-	{
-		free(buffer);
-		write(STDIN_FILENO, "\n", 1);
-		exit(0);
-	} */
 
 	token_array = calloc(sizeof(char *), 10);
 
 	while (buffer[len] != '\0')
 	{
-		/*	printf("test_%c_test\n", buffer[len]); */
 		len++;
 	}
 	if (buffer[len - 1] == '\n')
 	{
-		/*	printf("test2_%c_test2\n", buffer[len - 1]); */
 		buffer[len - 1] = '\0';
 	}
 
 	str = buffer;
+
 	if ((f = check_builtin(str)))
-	{
+  {
 		f(0);
 	}
 
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
-		token = _strtok(str, " ", &saveptr);
+		token = _strtok(str, " \t", &saveptr);
 		if (token == NULL)
 		{
 			free(buffer);
@@ -103,7 +85,6 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 		token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(token_array[ite2], token);
 	}
-	/*	token_array[ite2] = '\0'; */
 
 	create_child(pids, ite, token_array, name);
 
