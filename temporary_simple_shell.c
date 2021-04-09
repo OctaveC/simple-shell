@@ -31,8 +31,6 @@ void all_execves(char **token_array, char *name)
 
 void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
-
-	pid_t pid;
 	int status;
 
 	pids[*(ite)] = fork();
@@ -46,15 +44,15 @@ void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 		all_execves(token_array, name);
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
-
 }
 
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 {
+	void (*f)(int);
 	char *token, *str;
 	int ite2, ite3 = 0, len = 0;
+
 	char **token_array, *saveptr, *buffer;
-	size_t buffsize;
 
 	buffer = _getline();
 
@@ -62,11 +60,6 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	while (buffer[len] != '\0')
 	{
-		/*	printf("test_%c_test\n", buffer[len]); */
-		/*	if (buffer[len] == '\t')
-		{
-			buffer[len] = '\n';
-		} */
 		len++;
 	}
 	if (buffer[len - 1] == '\n')
@@ -76,9 +69,9 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	str = buffer;
 
-	if (_strcmp("exit", str) == 0)
-	{
-		exit(0);
+	if ((f = check_builtin(str)))
+  {
+		f(0);
 	}
 
 	for (ite2 = 0;; ite2++, str = NULL)
