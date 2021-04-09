@@ -5,10 +5,9 @@ void all_execves(char **token_array, char *name)
 	char *str, *str2;
 	char *truc;
 	int ite3 = 0;
-	int ite2 = 0;
-/*	extern char **environ; */
+	/*	extern char **environ; */
 
-/*	while (environ[ite2] != NULL)
+	/*	while (environ[ite2] != NULL)
 	{
 		printf("%s\n", environ[ite2]);
 		ite2++;
@@ -40,6 +39,7 @@ void all_execves(char **token_array, char *name)
 
 void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
+
 	pid_t pid;
 	int status;
 
@@ -48,15 +48,13 @@ void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 	if (pids[*(ite)] == -1)
 	{
 		perror(name);
-		/*	exit(0); */
+		exit(0);
 	}
 	else if (pids[*(ite)] == 0)
 		all_execves(token_array, name);
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 
-/*	pid = wait(&status);
-	pid = pid; */
 }
 
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
@@ -67,7 +65,10 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 	size_t buffsize;
 
 	buffer = _getline();
+
 /*	if (getline(&buffer, &buffsize, stdin) == EOF)
+
+	/*	if (buffer[0] == EOF)
 	{
 		free(buffer);
 		write(STDIN_FILENO, "\n", 1);
@@ -89,6 +90,11 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	str = buffer;
 
+	if (strcmp("exit", str) == 0)
+	{
+		exit(0);
+	}
+
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " ", &saveptr);
@@ -100,7 +106,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 		token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(token_array[ite2], token);
 	}
-/*	token_array[ite2] = '\0'; */
+	/*	token_array[ite2] = '\0'; */
 
 	create_child(pids, ite, token_array, name);
 
@@ -127,8 +133,6 @@ void CtrlC(int i)
 int main(int argc, char *argv[])
 {
 	int ite = 0;
-	int status;
-	pid_t pid;
 	pid_t pids[20];
 	char *name = argv[0];
 
@@ -136,15 +140,9 @@ int main(int argc, char *argv[])
 
 	for (ite = 0;; ite++)
 	{
-		/*	printf("\n%d\n", getpid()); */
-		/*	if (getpid() != 0) */
 		write(STDIN_FILENO, "$ ", 2);
 		getline_strtok_and_fork(&ite, &pids[20], name);
-		/*	pid = wait(&status);
-		pid = pid; */
 	}
-/*	pid = wait(&status);
-	pid = pid; */
 	argc = argc;
 	return (0);
 }

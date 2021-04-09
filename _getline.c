@@ -24,7 +24,7 @@ char *_getline(void)
 	{
             free(buffer);
             write(STDIN_FILENO, "\n", 1);
-            exit(0);
+            exit(EOF);
         }
 
         buffer[ite] = c;
