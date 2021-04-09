@@ -68,7 +68,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 /*	if (getline(&buffer, &buffsize, stdin) == EOF)
 
-	/*	if (buffer[0] == EOF)
+	if (buffer[0] == EOF)
 	{
 		free(buffer);
 		write(STDIN_FILENO, "\n", 1);
