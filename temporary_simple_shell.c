@@ -39,8 +39,6 @@ void all_execves(char **token_array, char *name)
 
 void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 {
-
-	pid_t pid;
 	int status;
 
 	pids[*(ite)] = fork();
@@ -59,10 +57,10 @@ void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 
 void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 {
+	void (*f)(int);
 	char *token, *str;
 	int ite2, ite3 = 0, len = 0;
 	char **token_array, *saveptr, *buffer;/* *buffer = calloc(sizeof(char), 300); */
-	size_t buffsize;
 
 	buffer = _getline();
 
@@ -90,14 +88,11 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
 
 	str = buffer;
 
-	if (strcmp("exit", str) == 0)
-	{
-		exit(0);
-	}
-
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " ", &saveptr);
+		f = check_builtin(token);
+		f(0);
 		if (token == NULL)
 		{
 			free(buffer);

@@ -12,6 +12,7 @@
 typedef struct sh_s
 {
 	char *data;
+	void (*f)(int);
 
 } sh_t;
 
@@ -28,5 +29,10 @@ char *_strchr(char *str, char c);
 int _setenv(char *name, const char *value, int overwrite);
 int _unsetenv(char *name);
 char *_getline(void);
+void _puts(char *str);
+int _putchar(char c);
+void (*check_builtin(char *token))(int);
+void env_blt(int status);
+void exit_blt(int status);
 
 #endif
