@@ -6,15 +6,14 @@
  *
  * 
  */
-char *_getline(void)
+char *_getline(prm_t *prm)
 {
     int rd;
     char c;
-    char *buffer;
     int ite = 0;
     int buffersize = 256;
 
-    buffer = calloc(sizeof(char), buffersize);
+    prm->buffer = calloc(sizeof(char), buffersize);
     c = '\0';
 
     while (c != '\n' && c != EOF)
@@ -22,23 +21,23 @@ char *_getline(void)
         rd = read(STDIN_FILENO, &c, 1);
         if (rd == 0)
 	{
-            free(buffer);
+            free(prm->buffer);
             write(STDIN_FILENO, "\n", 1);
             exit(EOF);
         }
 
-        buffer[ite] = c;
+        prm->buffer[ite] = c;
 
 	if (ite >= buffersize)
 	{
 		buffersize += 1;
-		buffer = realloc(buffer, sizeof(char) * buffersize);
+		prm->buffer = realloc(prm->buffer, sizeof(char) * buffersize);
 	}
         ite++;
     }
-    buffer[ite] = '\0';
+    prm->buffer[ite] = '\0';
 
-    return (buffer);
+    return (prm->buffer);
 }
 
 /* int main()

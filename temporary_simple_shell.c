@@ -1,6 +1,6 @@
 #include "shell-header.h"
 
-void all_execves(char **token_array, char *name)
+void all_execves(prm_t *prm, char *name)
 {
 	char *str, *str2;
 	char *truc;
@@ -10,26 +10,24 @@ void all_execves(char **token_array, char *name)
 
 	str2 = strdup(str);
 
-	truc = _which(token_array, str2);
+	truc = _which(prm->token_array, str2);
 
 	free(str2);
 
-	if (execve(truc, token_array, environ) == -1)
+	if (execve(truc, prm->token_array, environ) == -1)
 	{
-		while (token_array[ite3])
+		while (prm->token_array[ite3])
 		{
-			free(token_array[ite3]);
+			free(prm->token_array[ite3]);
+			free_prm(prm);
 			ite3++;
 		}
-		free(token_array);
-
 		perror(name);
-
 		exit(0);
 	}
 }
 
-void create_child(pid_t pids[], int *ite, char **token_array, char *name)
+void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
 {
 	int status;
 
@@ -41,60 +39,59 @@ void create_child(pid_t pids[], int *ite, char **token_array, char *name)
 		exit(0);
 	}
 	else if (pids[*(ite)] == 0)
-		all_execves(token_array, name);
+		all_execves(prm, name);
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
-void getline_strtok_and_fork(int *ite, pid_t pids[], char *name)
+void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 {
-	void (*f)(int);
-	char *token, *str;
+	void (*f)(prm_t *);
+	char *token, *str, *saveptr;
 	int ite2, ite3 = 0, len = 0;
 
-	char **token_array, *saveptr, *buffer;
+	prm->buffer = _getline(prm);
 
-	buffer = _getline();
+	prm->token_array = calloc(sizeof(char *), 10);
 
-	token_array = calloc(sizeof(char *), 10);
-
-	while (buffer[len] != '\0')
+	while (prm->buffer[len] != '\0')
 	{
 		len++;
 	}
-	if (buffer[len - 1] == '\n')
+	if (prm->buffer[len - 1] == '\n')
 	{
-		buffer[len - 1] = '\0';
+		prm->buffer[len - 1] = '\0';
 	}
 
-	str = buffer;
-
-	if ((f = check_builtin(str)))
-  {
-		f(0);
-	}
+	str = prm->buffer;
 
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " \t", &saveptr);
 		if (token == NULL)
 		{
-			free(buffer);
+			free(prm->buffer);
 			break;
 		}
-		token_array[ite2] = calloc(sizeof(char), 200);
-		strcat(token_array[ite2], token);
+		prm->token_array[ite2] = calloc(sizeof(char), 200);
+		strcat(prm->token_array[ite2], token);
 	}
 
-	create_child(pids, ite, token_array, name);
+	f = check_builtin(prm->token_array[0]);
+	if (f != NULL)
+	{
+		f(prm);
+	}
+
+	create_child(pids, ite, prm, name);
 
 	ite3 = 0;
 	while (ite3 < ite2)
 	{
-		free(token_array[ite3]);
+		free(prm->token_array[ite3]);
 		ite3++;
 	}
-	free(token_array);
+	free(prm->token_array);
 }
 
 void CtrlC(int i)
@@ -112,14 +109,18 @@ int main(int argc, char *argv[])
 {
 	int ite = 0;
 	pid_t pids[20];
-	char *name = argv[0];
+	prm_t *prm;
+	char *name;
+
+	prm = calloc(sizeof(prm_t), 1);
+	name = argv[0];
 
 	signal(SIGINT, CtrlC);
 
 	for (ite = 0;; ite++)
 	{
 		write(STDIN_FILENO, "$ ", 2);
-		getline_strtok_and_fork(&ite, &pids[20], name);
+		getline_strtok_and_fork(&ite, &pids[20], prm, name);
 	}
 	argc = argc;
 	return (0);

@@ -1,11 +1,23 @@
 #include "shell-header.h"
 
-void exit_blt(int status)
+void exit_blt(prm_t *prm)
 {
-	exit(status);
+	int extcode = EXIT_SUCCESS;
+
+	if (prm == NULL)
+	{
+		return;
+	}
+
+	if (prm->token_array != NULL)
+	{
+		extcode = _atoi(prm->token_array[1]);
+	}
+	/* free_prm(prm); */
+	exit(extcode);
 }
 
-void env_blt(int status __attribute__((unused)))
+void env_blt(prm_t *prm __attribute__((unused)))
 {
 	int ite = 0;
 
@@ -20,7 +32,7 @@ void env_blt(int status __attribute__((unused)))
  * 
  * 
  */
-void (*check_builtin(char *token))(int)
+void (*check_builtin(char *token))(prm_t *)
 {
 	sh_t bltin[] = {
 	    {"exit", exit_blt},
