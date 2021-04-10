@@ -2,7 +2,7 @@
 
 char *_getenv(char *name)
 {
-	char *envar, *tmp;
+	char *envar, *tmp, *envar_return = NULL;
 	int ite = 0, ite2 = 0;
 
 	envar = NULL;
@@ -17,5 +17,23 @@ char *_getenv(char *name)
 		}
 		ite2++;
 	}
-	return (envar);
+
+	envar_return = _strchr(envar, '=');
+	if (envar_return == NULL || envar_return + 1 == NULL)
+		return ("");
+
+	return (envar_return + 1);
+}
+
+int main(void)
+{
+	char *str;
+
+	str = _getenv("");
+
+	if (str == "" || str == NULL)
+		printf("(null)\n");
+	else
+		printf("%s\n", str);
+	return (0);
 }

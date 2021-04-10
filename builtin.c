@@ -28,6 +28,7 @@ void setenv_blt(prm_t *prm)
 		perror(prm->name), exit(0);
 
 /*      A faire: gérer les cas d'erreur en les formulant correctement */
+/* possiblement utliser prm->setenv_name == "" ? */
 
 /*	if (prm->setenv_name == NULL || prm->setenv_name == NULL || equal_sign_alert == 1;)
 	perror(prm.name), exit(0); */
@@ -62,7 +63,7 @@ void setenv_blt(prm_t *prm)
 	free(name2);
 }
 
-void unsetenv_blt(prm_t prm)
+void unsetenv_blt(prm_t *prm)
 {
 	char *str;
 	int size = 0, ite = 0, pos = 0;
@@ -96,6 +97,13 @@ void unsetenv_blt(prm_t prm)
         }
 }
 
+void cd_blt(prm_t *prm)
+{
+	int ite = 0;
+
+	if (prm->cd_directory == NULL)
+		chdir();
+}
 
 /**
  * 
