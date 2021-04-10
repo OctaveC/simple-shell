@@ -85,7 +85,7 @@ void unsetenv_blt(prm_t *prm)
 			perror(prm.name), exit(0);
 	}
 
-	str = _getenv(prm.setenv_name);
+	str = _getenv_with_var_name(prm.setenv_name);
 
 	while (environ[pos] != str)
 		pos++;
@@ -100,9 +100,27 @@ void unsetenv_blt(prm_t *prm)
 void cd_blt(prm_t *prm)
 {
 	int ite = 0;
+	int chdir_return;
+	char buffer_cwd[500];
 
 	if (prm->cd_directory == NULL)
-		chdir();
+		chdir_return = chdir(_getenv("HOME"));
+	else if (prm->cd_directory == "-")
+	{
+		chdir_return = chdir(_getenv("OLDPWD"));
+		_puts(getcwd(buffer_cwd, 500));
+	}
+	else
+		chdir_return = chdir(prm->cd_directory);
+
+	if (chdir_return == -1)
+	{
+		perror(prm.name);
+		exit(0);
+	}
+
+	_setenv("OLDPWD", _getenv("PWD"));
+	_setenv("PWD", getcwd(buffer_cwd, 500));
 }
 
 /**
