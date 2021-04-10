@@ -13,7 +13,9 @@ void exit_blt(prm_t *prm)
 	{
 		extcode = _atoi(prm->token_array[1]);
 	}
-	/* free_prm(prm); */
+	free(prm->token_array);
+	free(prm->buffer);
+	free(prm);
 	exit(extcode);
 }
 

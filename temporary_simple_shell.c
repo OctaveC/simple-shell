@@ -19,7 +19,7 @@ void all_execves(prm_t *prm, char *name)
 		while (prm->token_array[ite3])
 		{
 			free(prm->token_array[ite3]);
-			/* free_prm(prm); */
+			free(prm);
 			ite3++;
 		}
 		perror(name);
@@ -77,10 +77,13 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 		strcat(prm->token_array[ite2], token);
 	}
 
-	f = check_builtin(prm->token_array[0]);
-	if (f != NULL)
+	if (str == NULL)
 	{
-		f(prm);
+		f = check_builtin(prm->token_array[0]);
+		if (f != NULL)
+		{
+			f(prm);
+		}
 	}
 
 	create_child(pids, ite, prm, name);
