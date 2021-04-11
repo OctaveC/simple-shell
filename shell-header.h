@@ -9,10 +9,17 @@
 #include <signal.h>
 #include <fcntl.h>
 
+typedef struct prm_s
+{
+	char **token_array;
+	char *buffer;
+
+} prm_t;
+
 typedef struct sh_s
 {
 	char *data;
-	void (*f)(int);
+	void (*f)(prm_t *);
 
 } sh_t;
 
@@ -28,11 +35,14 @@ unsigned int _strcspn(char *s1, char *s2);
 char *_strchr(char *str, char c);
 int _setenv(char *name, const char *value, int overwrite);
 int _unsetenv(char *name);
-char *_getline(void);
+char *_getline(prm_t *prm);
 void _puts(char *str);
 int _putchar(char c);
-void (*check_builtin(char *token))(int);
-void env_blt(int status);
-void exit_blt(int status);
+void (*check_builtin(char *token))(prm_t *);
+void env_blt(prm_t *prm);
+void exit_blt(prm_t *prm);
+void free_prm(prm_t *prm);
+int _isDigit(char c);
+int _atoi(char *s);
 
 #endif
