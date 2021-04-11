@@ -18,10 +18,12 @@ void all_execves(prm_t *prm, char *name)
 	{
 		while (prm->token_array[ite3])
 		{
+			printf("\nparam%s\n", prm->token_array[ite3]);
 			free(prm->token_array[ite3]);
-			free(prm);
 			ite3++;
 		}
+		free(prm->token_array);
+		free(prm);
 		perror(name);
 		exit(0);
 	}
