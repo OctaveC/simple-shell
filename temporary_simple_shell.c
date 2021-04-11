@@ -10,18 +10,25 @@ void all_execves(prm_t *prm, char *name)
 
 	str2 = strdup(str);
 
+	printf("\nDo we Reach here? 4\n");
+
 	truc = _which(prm->token_array, str2);
 
 	free(str2);
 
+	printf("\nDo we Reach here? 5\n");
+
 	if (execve(truc, prm->token_array, environ) == -1)
 	{
+		printf("\nDo we Reach here? 25\n");
 		while (prm->token_array[ite3])
 		{
+			printf("\n_param_%s\n", prm->token_array[ite3]);
 			free(prm->token_array[ite3]);
-			free(prm);
 			ite3++;
 		}
+		free(prm->token_array);
+		free(prm);
 		perror(name);
 		exit(0);
 	}
@@ -32,6 +39,8 @@ void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
 	int status;
 
 	pids[*(ite)] = fork();
+
+	printf("\nDo we Reach here? 3 \n");
 
 	if (pids[*(ite)] == -1)
 	{
@@ -63,6 +72,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 		prm->buffer[len - 1] = '\0';
 	}
 
+	printf("\nDo we Reach here? 1\n");
 	str = prm->buffer;
 
 	for (ite2 = 0;; ite2++, str = NULL)
@@ -75,7 +85,9 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 		}
 		prm->token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(prm->token_array[ite2], token);
+		printf("\ntoken_%s\n", token);
 	}
+	printf("\nite2_%d\n", ite2);
 
 	if (str == NULL)
 	{
@@ -85,6 +97,8 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 			f(prm);
 		}
 	}
+
+	printf("\nDo we Reach here? 2\n");
 
 	create_child(pids, ite, prm, name);
 
