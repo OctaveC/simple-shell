@@ -83,14 +83,11 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 		printf("Token_array = %s\n", token);
 	}
 
-	if (str == NULL)
+	printf("Im' actually here\n");
+	f = check_builtin(prm->token_array[0]);
+	if (f != NULL)
 	{
-		printf("Im' actually here\n");
-		f = check_builtin(prm->token_array[0]);
-		if (f != NULL)
-		{
-			f(prm);
-		}
+		f(prm);
 	}
 	else
 	{

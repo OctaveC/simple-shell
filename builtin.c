@@ -129,28 +129,27 @@ void unsetenv_blt(prm_t *prm)
 
 void cd_blt(prm_t *prm)
 {
-	int ite = 0;
 	int chdir_return;
 	char buffer_cwd[500];
 
-	if (prm->cd_directory == NULL)
+	if (prm->token_array[1] == NULL)
 		chdir_return = chdir(_getenv("HOME"));
-	else if (prm->cd_directory == "-")
+	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
 		chdir_return = chdir(_getenv("OLDPWD"));
 		_puts(getcwd(buffer_cwd, 500));
 	}
 	else
-		chdir_return = chdir(prm->cd_directory);
+		chdir_return = chdir(prm->token_array[1]);
 
 	if (chdir_return == -1)
 	{
 		perror(prm->name);
-		exit(0);
+		return;
 	}
 
-	_setenv("OLDPWD", _getenv("PWD"));
-	_setenv("PWD", getcwd(buffer_cwd, 500));
+	_setenv("OLDPWD", _getenv("PWD"), prm);
+	_setenv("PWD", getcwd(buffer_cwd, 500), prm);
 }
 
 /**
@@ -164,7 +163,9 @@ void (*check_builtin(char *token))(prm_t *)
 	    {"env", env_blt},
 	    {"setenv", setenv_blt},
 	    {"unsetenv", unsetenv_blt},
-	    {NULL, NULL}};
+	    {"cd", cd_blt},
+	    {NULL, NULL}
+	};
 	int ite = 0;
 
 	printf("Im' actually here\n");
