@@ -35,28 +35,31 @@ void env_blt(prm_t *prm __attribute__((unused)))
 	}
 }
 
-/* void setenv_blt(prm_t *prm)
+void setenv_blt(prm_t *prm)
 {
-	char *str;
+	char *str /*tmp[100]*/;
 	int ite = 0, ite2 = 0, ite3 = 0;
 	char *name2 = calloc(100, sizeof(char));
 
 	if (name2 == NULL)
 		perror(prm->name);
 
-/*      A faire: gérer les cas d'erreur en les formulant correctement */
-/* possiblement utliser prm->setenv_name == "" ? */
+	/*      A faire: gérer les cas d'erreur en les formulant correctement */
+	/* possiblement utliser prm->setenv_name == "" ? */
 
-/*	if (prm->token_array[1] == NULL)
-	printf("Im' here %s\n", prm->token_array[1]);
-	perror(prm->name);
-
-	while (prm->token_array[0][0]!= '\0')
+	printf("Hello there\n");
+	printf("varname = %s\n", prm->token_array[1]);
+	if (prm->token_array[1] == NULL)
 	{
-		if (prm->token_array[1] == '=')
+		printf("Im' here %s\n", prm->token_array[1]);
+		perror(prm->name);
+	}
+
+	while (prm->token_array[1][ite] != '\0')
+	{
+		if (prm->token_array[1][ite] == '=')
 		{
 			perror(prm->name);
-			exit(0);
 		}
 		ite++;
 	}
@@ -68,24 +71,26 @@ void env_blt(prm_t *prm __attribute__((unused)))
 	strcat(name2, "=");
 	strcat(name2, prm->token_array[2]);
 
-	str = _getenv(prm->token_array[1]);
+	printf("varname = %s\n", prm->token_array[1]);
+	str = _getenv_with_var_name(prm->token_array[1]);
 
 	if (str == NULL)
 	{
+		/* strcat(tmp, name2); */
 		environ[ite2] = name2;
 		environ[ite2 + 1] = '\0';
+		/* free(name2); */
 	}
 	else if (prm->token_array[2] != NULL)
 	{
 		while (environ[ite3] != str)
 			ite3++;
-		environ[ite3] = name2;
+		strcpy(environ[ite3], name2);
+		free(name2);
 	}
+}
 
-	free(name2);
-} */
-
-/* void unsetenv_blt(prm_t *prm)
+void unsetenv_blt(prm_t *prm)
 {
 	char *str;
 	int size = 0, ite = 0, pos = 0, ite2 = 0;
@@ -98,29 +103,31 @@ void env_blt(prm_t *prm __attribute__((unused)))
 
 	/* A faire: là on veutr vérifier uniquement  que la string contenu dans prm.setenv n'est pas nulle */
 
-/*	if (prm->setenv_name == NULL)
-		perror(prm->name), exit(0);
-
-	while (prm->setenv_name[ite2] != '\0')
+	if (prm->token_array[1] == NULL)
 	{
-		if (prm->setenv_name[ite2] == '=')
+		perror(prm->name);
+	}
+
+	while (prm->token_array[1][ite2] != '\0')
+	{
+		if (prm->token_array[1][ite2] == '=')
 			perror(prm->name), exit(0);
 		ite2++;
 	}
 
-	str = _getenv_with_var_name(prm->setenv_name);
+	str = _getenv_with_var_name(prm->token_array[1]);
 
 	while (environ[pos] != str)
 		pos++;
 
-        /* Copy next element value to current element */
- /*       for (ite = pos ; ite < size ; ite++)
-        {
+	/* Copy next element value to current element */
+	for (ite = pos; ite < size; ite++)
+	{
 		environ[ite] = environ[ite + 1];
-        }
-} */
+	}
+}
 
-/* void cd_blt(prm_t *prm)
+void cd_blt(prm_t *prm)
 {
 	int ite = 0;
 	int chdir_return;
@@ -144,7 +151,7 @@ void env_blt(prm_t *prm __attribute__((unused)))
 
 	_setenv("OLDPWD", _getenv("PWD"));
 	_setenv("PWD", getcwd(buffer_cwd, 500));
-} */
+}
 
 /**
  * 
@@ -155,11 +162,12 @@ void (*check_builtin(char *token))(prm_t *)
 	sh_t bltin[] = {
 	    {"exit", exit_blt},
 	    {"env", env_blt},
-	    /* {"setenv", setenv_blt}, */
-	    {NULL, NULL}
-	};
+	    {"setenv", setenv_blt},
+	    {"unsetenv", unsetenv_blt},
+	    {NULL, NULL}};
 	int ite = 0;
 
+	printf("Im' actually here\n");
 	while ((bltin + ite)->data)
 	{
 		if (strcmp(token, (bltin + ite)->data) == 0)

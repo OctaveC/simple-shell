@@ -40,7 +40,9 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 		exit(0);
 	}
 	else if (pids[*(ite)] == 0)
+	{
 		all_execves(prm);
+	}
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
@@ -65,6 +67,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	}
 
 	str = prm->buffer;
+	printf("%s\n", str);
 
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
@@ -72,6 +75,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 		if (token == NULL)
 		{
 			free(prm->buffer);
+			printf("Hi\n");
 			break;
 		}
 		prm->token_array[ite2] = calloc(sizeof(char), 200);
@@ -81,14 +85,17 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 
 	if (str == NULL)
 	{
+		printf("Im' actually here\n");
 		f = check_builtin(prm->token_array[0]);
 		if (f != NULL)
 		{
 			f(prm);
 		}
 	}
-
-	create_child(pids, ite, prm);
+	else
+	{
+		create_child(pids, ite, prm);
+	}
 
 	ite3 = 0;
 	while (ite3 < ite2)
