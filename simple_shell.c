@@ -1,6 +1,6 @@
 #include "shell-header.h"
 
-void all_execves(prm_t *prm, char *name)
+void all_execves(prm_t *prm)
 {
 	char *str, *str2;
 	char *truc;
@@ -23,12 +23,12 @@ void all_execves(prm_t *prm, char *name)
 		}
 		free(prm->token_array);
 		free(prm);
-		perror(name);
+		perror(prm->name);
 		exit(0);
 	}
 }
 
-void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
+void create_child(pid_t pids[], int *ite, prm_t *prm)
 {
 	int status;
 
@@ -36,16 +36,16 @@ void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
 
 	if (pids[*(ite)] == -1)
 	{
-		perror(name);
+		perror(prm->name);
 		exit(0);
 	}
 	else if (pids[*(ite)] == 0)
-		all_execves(prm, name);
+		all_execves(prm);
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
-void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
+void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 {
 	void (*f)(prm_t *);
 	char *token, *str, *saveptr;
@@ -76,6 +76,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 		}
 		prm->token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(prm->token_array[ite2], token);
+		printf("Token_array = %s\n", token);
 	}
 
 	if (str == NULL)
@@ -87,7 +88,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 		}
 	}
 
-	create_child(pids, ite, prm, name);
+	create_child(pids, ite, prm);
 
 	ite3 = 0;
 	while (ite3 < ite2)
@@ -114,17 +115,16 @@ int main(int argc __attribute__((unused)), char *argv[])
 	int ite = 0;
 	pid_t pids[20];
 	prm_t *prm;
-	char *name;
 
 	prm = calloc(sizeof(prm_t), 1);
-	name = argv[0];
+	prm->name = argv[0];
 
 	signal(SIGINT, CtrlC);
 
 	for (ite = 0;; ite++)
 	{
 		write(STDIN_FILENO, "$ ", 2);
-		getline_strtok_and_fork(&ite, &pids[20], prm, name);
+		getline_strtok_and_fork(&ite, &pids[20], prm);
 	}
 	return (0);
 }

@@ -13,6 +13,7 @@ typedef struct prm_s
 {
 	char **token_array;
 	char *buffer;
+	char *name;
 
 } prm_t;
 
@@ -44,5 +45,6 @@ void exit_blt(prm_t *prm);
 void free_prm(prm_t *prm);
 int _isDigit(char c);
 int _atoi(char *s);
+char *_getenv_with_var_name(char *name);
 
 #endif
