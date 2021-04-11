@@ -47,11 +47,8 @@ void setenv_blt(prm_t *prm)
 	/*      A faire: gérer les cas d'erreur en les formulant correctement */
 	/* possiblement utliser prm->setenv_name == "" ? */
 
-	printf("Hello there\n");
-	printf("varname = %s\n", prm->token_array[1]);
 	if (prm->token_array[1] == NULL)
 	{
-		printf("Im' here %s\n", prm->token_array[1]);
 		perror(prm->name);
 	}
 
@@ -71,7 +68,6 @@ void setenv_blt(prm_t *prm)
 	strcat(name2, "=");
 	strcat(name2, prm->token_array[2]);
 
-	printf("varname = %s\n", prm->token_array[1]);
 	str = _getenv_with_var_name(prm->token_array[1]);
 
 	if (str == NULL)
@@ -132,7 +128,7 @@ void cd_blt(prm_t *prm)
 	int chdir_return;
 	char buffer_cwd[500];
 
-	if (prm->token_array[1] == NULL)
+	if (prm->token_array[1] == NULL || prm->token_array[1][0] == '~')
 		chdir_return = chdir(_getenv("HOME"));
 	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
@@ -168,7 +164,6 @@ void (*check_builtin(char *token))(prm_t *)
 	};
 	int ite = 0;
 
-	printf("Im' actually here\n");
 	while ((bltin + ite)->data)
 	{
 		if (strcmp(token, (bltin + ite)->data) == 0)

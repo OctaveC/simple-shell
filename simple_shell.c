@@ -67,7 +67,6 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	}
 
 	str = prm->buffer;
-	printf("%s\n", str);
 
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
@@ -75,15 +74,12 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 		if (token == NULL)
 		{
 			free(prm->buffer);
-			printf("Hi\n");
 			break;
 		}
 		prm->token_array[ite2] = calloc(sizeof(char), 200);
 		strcat(prm->token_array[ite2], token);
-		printf("Token_array = %s\n", token);
 	}
 
-	printf("Im' actually here\n");
 	f = check_builtin(prm->token_array[0]);
 	if (f != NULL)
 	{
