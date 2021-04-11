@@ -23,7 +23,6 @@ void all_execves(prm_t *prm, char *name)
 		printf("\nDo we Reach here? 25\n");
 		while (prm->token_array[ite3])
 		{
-			printf("\n_param_%s\n", prm->token_array[ite3]);
 			free(prm->token_array[ite3]);
 			ite3++;
 		}
