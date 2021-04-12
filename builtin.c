@@ -166,7 +166,7 @@ void (*check_builtin(char *token))(prm_t *)
 
 	while ((bltin + ite)->data)
 	{
-		if (strcmp(token, (bltin + ite)->data) == 0)
+		if (_strcmp(token, (bltin + ite)->data) == 0)
 		{
 			return ((bltin + ite)->f);
 		}
