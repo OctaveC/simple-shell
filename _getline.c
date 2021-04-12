@@ -26,13 +26,12 @@ char *_getline(prm_t *prm)
 			exit(EOF);
 		}
 
-		    prm->buffer[ite] = c;
-
 		if (ite >= buffersize - 1)
 		{
 			buffersize += 2;
 			prm->buffer = _realloc(prm->buffer, buffersize - 2, sizeof(char) * buffersize);
 		}
+		prm->buffer[ite] = c;
 		ite++;
 	}
 	prm->buffer[ite] = '\0';

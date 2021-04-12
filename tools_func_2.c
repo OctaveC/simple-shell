@@ -14,9 +14,7 @@ char *_strtok(char *str, char *sep, char **saveptr)
 	char *end = NULL;
 
 	if (str == NULL)
-	{
 		str = *saveptr;
-	}
 
 	if (*str == '\0')
 	{
@@ -25,6 +23,12 @@ char *_strtok(char *str, char *sep, char **saveptr)
 	}
 
 	str += _strspn(str, sep);
+
+	if (*str == '#')
+	{
+		*saveptr = str;
+		return (NULL);
+	}
 
 	if (*str == '\0')
 	{

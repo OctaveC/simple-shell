@@ -28,6 +28,7 @@ extern char **environ;
 char *_which(char *argv[], char *str);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
+char *_memcpy(char *dest, char *src, unsigned int n);
 char *_strdup(char *str);
 char *_getenv(char *name);
 char *_strtok(char *str, char *sep, char **saveptr);
