@@ -50,7 +50,6 @@ char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 char *_calloc(unsigned int nmemb, unsigned int size);
-/* char **_calloc_2d(size_t nmemb, size_t size); */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 #endif

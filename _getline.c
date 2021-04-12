@@ -28,10 +28,10 @@ char *_getline(prm_t *prm)
 
 		    prm->buffer[ite] = c;
 
-		if (ite >= buffersize)
+		if (ite >= buffersize - 1)
 		{
-			buffersize += 1;
-			prm->buffer = _realloc(prm->buffer, buffersize - 1, sizeof(char) * buffersize);
+			buffersize += 2;
+			prm->buffer = _realloc(prm->buffer, buffersize - 2, sizeof(char) * buffersize);
 		}
 		ite++;
 	}
