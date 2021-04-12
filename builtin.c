@@ -162,6 +162,7 @@ void (*check_builtin(char *token))(prm_t *)
 	    {"setenv", setenv_blt},
 	    {"unsetenv", unsetenv_blt},
 	    {"cd", cd_blt},
+	    {"help", help_blt},
 	    {NULL, NULL}
 	};
 	int ite = 0;

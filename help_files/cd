@@ -1,0 +1,7 @@
+Usage: cd [DIRECTORY]
+This command changes the current working directory to [DIRECTORY].
+
+The options availables for this command are:
+    -	    Lets you go back to the directory you were previously in.
+
+If no argument is given to cd, the command will be interpreted like cd $HOME.

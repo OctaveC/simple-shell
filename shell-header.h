@@ -41,6 +41,7 @@ int _putchar(char c);
 void (*check_builtin(char *token))(prm_t *);
 void env_blt(prm_t *prm);
 void exit_blt(prm_t *prm);
+void help_blt(prm_t *prm);
 void free_prm(prm_t *prm);
 int _isDigit(char c);
 int _atoi(char *s);

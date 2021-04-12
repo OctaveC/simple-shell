@@ -1,0 +1,3 @@
+Usage: setenv [NAME] [VALUE]
+This command adds the variable [NAME] to the environment with the value [VALUE].
+If [NAME] is already exists in the environment, then its value is changed to [VALUE].
