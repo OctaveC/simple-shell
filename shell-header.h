@@ -49,5 +49,6 @@ void _setenv(char *name, char *value, prm_t *prm);
 char *_strdup(char *str);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
+char *_calloc(unsigned int nmemb, unsigned int size);
 
 #endif
