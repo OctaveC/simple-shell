@@ -38,7 +38,7 @@ void env_blt(prm_t *prm __attribute__((unused)))
 void setenv_blt(prm_t *prm)
 {
 	char *str;
-	int ite = 0, ite2 = 0, ite3 = 0, ite4 = 0;
+	int ite = 0, ite2 = 0, ite3 = 0;
 	char *name2 = calloc(100, sizeof(char));
 	if (name2 == NULL)
 	{
@@ -76,10 +76,6 @@ void setenv_blt(prm_t *prm)
 		free(environ[ite2]);
 		environ[ite2] = calloc(100, sizeof(char));
 		strcat(environ[ite2], name2);
-		printf("%d\n", ite2);
-		while (prm->num_setenv[ite4] != 0)
-			ite4++;
-		prm->num_setenv[ite4] = ite2;
 		environ[ite2 + 1] = '\0';
 		free(name2);
 	}
