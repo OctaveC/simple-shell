@@ -81,14 +81,17 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 		strcat(prm->token_array[ite2], token);
 	}
 
-	f = check_builtin(prm->token_array[0]);
-	if (f != NULL)
+	if (prm->token_array[0] != NULL)
 	{
-		f(prm);
-	}
-	else
-	{
-		create_child(pids, ite, prm);
+		f = check_builtin(prm->token_array[0]);
+		if (f != NULL)
+		{
+			f(prm);
+		}
+		else
+		{
+			create_child(pids, ite, prm);
+		}
 	}
 
 	ite3 = 0;
@@ -109,7 +112,7 @@ void CtrlC(int i)
 /**
  * main - execv+fork+wait demonstration (WIP)
  *
- * Return: 1 if it fails, or 0 if it succeeds.
+() * Return: 1 if it fails, or 0 if it succeeds.
  */
 int main(int argc __attribute__((unused)), char *argv[])
 {
