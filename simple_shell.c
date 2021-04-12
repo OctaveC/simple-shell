@@ -22,8 +22,9 @@ void all_execves(prm_t *prm)
 			ite3++;
 		}
 		free(prm->token_array);
-		free(prm);
 		perror(prm->name);
+		/*	free(prm->name); */
+		free(prm);
 		exit(0);
 	}
 }

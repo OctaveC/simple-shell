@@ -14,7 +14,6 @@ typedef struct prm_s
 	char **token_array;
 	char *buffer;
 	char *name;
-
 } prm_t;
 
 typedef struct sh_s

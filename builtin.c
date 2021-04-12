@@ -37,19 +37,19 @@ void env_blt(prm_t *prm __attribute__((unused)))
 
 void setenv_blt(prm_t *prm)
 {
-	char *str /*tmp[100]*/;
-	int ite = 0, ite2 = 0, ite3 = 0;
+	char *str;
+	int ite = 0, ite2 = 0, ite3 = 0, ite4 = 0;
 	char *name2 = calloc(100, sizeof(char));
-
 	if (name2 == NULL)
-		perror(prm->name);
-
-	/*      A faire: gérer les cas d'erreur en les formulant correctement */
-	/* possiblement utliser prm->setenv_name == "" ? */
-
-	if (prm->token_array[1] == NULL)
 	{
 		perror(prm->name);
+		return;
+	}
+
+	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
+	{
+		perror(prm->name);
+		return;
 	}
 
 	while (prm->token_array[1][ite] != '\0')
@@ -57,6 +57,7 @@ void setenv_blt(prm_t *prm)
 		if (prm->token_array[1][ite] == '=')
 		{
 			perror(prm->name);
+			return;
 		}
 		ite++;
 	}
@@ -72,16 +73,21 @@ void setenv_blt(prm_t *prm)
 
 	if (str == NULL)
 	{
-		/* strcat(tmp, name2); */
-		environ[ite2] = name2;
+		free(environ[ite2]);
+		environ[ite2] = calloc(100, sizeof(char));
+		strcat(environ[ite2], name2);
+		printf("%d\n", ite2);
+		while (prm->num_setenv[ite4] != 0)
+			ite4++;
+		prm->num_setenv[ite4] = ite2;
 		environ[ite2 + 1] = '\0';
-		/* free(name2); */
+		free(name2);
 	}
 	else if (prm->token_array[2] != NULL)
 	{
 		while (environ[ite3] != str)
 			ite3++;
-		strcpy(environ[ite3], name2);
+	       	strcpy(environ[ite3], name2);
 		free(name2);
 	}
 }
