@@ -52,10 +52,15 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 {
 	void (*f)(prm_t *);
 	char *token, *str, *saveptr;
-	int ite2, ite3 = 0, len = 0;
+	int ite2, ite3 = 0, ite4 = 0, len = 0;
 
 	prm->buffer = _getline(prm);
-	prm->token_array = calloc(sizeof(char *), 10);
+	prm->token_array = malloc(sizeof(char *) * 10);
+	while (ite4 < 10)
+	{
+		prm->token_array[ite4] = NULL;
+		ite4++;
+	}
 
 	while (prm->buffer[len] != '\0')
 		len++;
@@ -71,7 +76,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 			free(prm->buffer);
 			break;
 		}
-		prm->token_array[ite2] = calloc(sizeof(char), 200);
+		prm->token_array[ite2] = _calloc(sizeof(char), 200);
 		_strcat(prm->token_array[ite2], token);
 	}
 
@@ -109,7 +114,9 @@ int main(int argc __attribute__((unused)), char *argv[])
 	pid_t pids[20];
 	prm_t *prm;
 
-	prm = calloc(sizeof(prm_t), 1);
+	prm = malloc(sizeof(prm_t) * 1);
+
+	prm->buffer = "";
 	prm->name = argv[0];
 
 	signal(SIGINT, CtrlC);

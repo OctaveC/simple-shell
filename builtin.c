@@ -39,7 +39,7 @@ void setenv_blt(prm_t *prm)
 {
 	char *str;
 	int ite = 0, ite2 = 0, ite3 = 0;
-	char *name2 = calloc(100, sizeof(char));
+	char *name2 = _calloc(100, sizeof(char));
 	if (name2 == NULL)
 	{
 		perror(prm->name);
@@ -74,7 +74,7 @@ void setenv_blt(prm_t *prm)
 	if (str == NULL)
 	{
 		free(environ[ite2]);
-		environ[ite2] = calloc(100, sizeof(char));
+		environ[ite2] = _calloc(100, sizeof(char));
 		_strcat(environ[ite2], name2);
 		environ[ite2 + 1] = '\0';
 		free(name2);

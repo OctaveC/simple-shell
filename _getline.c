@@ -2,7 +2,6 @@
 
 /**
  * 
- * 
  *
  * 
  */
@@ -13,7 +12,7 @@ char *_getline(prm_t *prm)
 	int ite = 0;
 	int buffersize = 256;
 
-	prm->buffer = calloc(sizeof(char), buffersize);
+	prm->buffer = _calloc(sizeof(char), buffersize);
 	c = '\0';
 
 	while (c != '\n' && c != EOF)
@@ -32,7 +31,7 @@ char *_getline(prm_t *prm)
 		if (ite >= buffersize)
 		{
 			buffersize += 1;
-			prm->buffer = realloc(prm->buffer, sizeof(char) * buffersize);
+			prm->buffer = _realloc(prm->buffer, buffersize - 1, sizeof(char) * buffersize);
 		}
 		ite++;
 	}

@@ -59,37 +59,6 @@ int _strcmp(char *s1, char *s2)
 }
 
 /**
- * _strdup - Return a pointet to a newly allocated space in memory
- * @str: Source string
- * Return: return str to a new string dup, NULL if str = NULL,
- * and if dup = NULL
- */
-/* char *_strdup(char *str)
-{
-	char *dup;
-	unsigned int i;
-
-	if (str == NULL)
-	{
-		return (NULL);
-	}
-
-	dup = malloc((_strlen(str) + 1) * sizeof(char));
-
-	if (dup == NULL)
-	{
-		return (NULL);
-	}
-
-	for (i = 0; str[i] != '\0'; i++)
-	{
-		dup[i] = str[i];
-	}
-
-	return (dup);
-} */
-
-/**
  * _strdup - Returns a pointer to a newly allocated space in memory.
  * @str: String that's going to be copied to the space in memory
  *
