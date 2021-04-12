@@ -26,9 +26,9 @@ char *_which(char *argv[], char *str)
 			break;
 		}
 		token2 = calloc(200, sizeof(char));
-		strcat(token2, token);
-		strcat(token2, "/");
-		strcat(token2, argv[0]);
+		_strcat(token2, token);
+		_strcat(token2, "/");
+		_strcat(token2, argv[0]);
 		if (access(token2, F_OK) == 0)
 		{
 			return (token2);

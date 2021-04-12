@@ -64,9 +64,9 @@ void setenv_blt(prm_t *prm)
 	while (environ[ite2] != NULL)
 		ite2++;
 
-	strcat(name2, prm->token_array[1]);
-	strcat(name2, "=");
-	strcat(name2, prm->token_array[2]);
+	_strcat(name2, prm->token_array[1]);
+	_strcat(name2, "=");
+	_strcat(name2, prm->token_array[2]);
 
 	str = _getenv_with_var_name(prm->token_array[1]);
 
@@ -81,7 +81,7 @@ void setenv_blt(prm_t *prm)
 	{
 		while (environ[ite3] != str)
 			ite3++;
-		strcpy(environ[ite3], name2);
+		_strcpy(environ[ite3], name2);
 		free(name2);
 	}
 }

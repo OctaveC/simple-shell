@@ -47,5 +47,8 @@ int _atoi(char *s);
 char *_getenv_with_var_name(char *name);
 void _unsetenv(char *name, prm_t *prm);
 void _setenv(char *name, char *value, prm_t *prm);
+char *_strdup(char *str);
+char *_strcpy(char *dest, char *src);
+char *_strcat(char *dest, char *src);
 
 #endif

@@ -6,9 +6,9 @@ void all_execves(prm_t *prm)
 	char *truc;
 	int ite3 = 0;
 
-	str = getenv("PATH");
+	str = _getenv("PATH");
 
-	str2 = strdup(str);
+	str2 = _strdup(str);
 
 	truc = _which(prm->token_array, str2);
 
@@ -54,20 +54,14 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	int ite2, ite3 = 0, len = 0;
 
 	prm->buffer = _getline(prm);
-
 	prm->token_array = calloc(sizeof(char *), 10);
 
 	while (prm->buffer[len] != '\0')
-	{
 		len++;
-	}
 	if (prm->buffer[len - 1] == '\n')
-	{
 		prm->buffer[len - 1] = '\0';
-	}
 
 	str = prm->buffer;
-
 	for (ite2 = 0;; ite2++, str = NULL)
 	{
 		token = _strtok(str, " \t", &saveptr);
@@ -77,23 +71,18 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 			break;
 		}
 		prm->token_array[ite2] = calloc(sizeof(char), 200);
-		strcat(prm->token_array[ite2], token);
+		_strcat(prm->token_array[ite2], token);
 	}
 
 	if (prm->token_array[0] != NULL)
 	{
 		f = check_builtin(prm->token_array[0]);
 		if (f != NULL)
-		{
 			f(prm);
-		}
 		else
-		{
 			create_child(pids, ite, prm);
-		}
 	}
 
-	ite3 = 0;
 	while (ite3 < ite2)
 	{
 		free(prm->token_array[ite3]);

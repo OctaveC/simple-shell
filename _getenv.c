@@ -1,5 +1,10 @@
 #include "shell-header.h"
 
+/**
+ * _getenv - Search in the environment for a given variable.
+ * @name: name of the variable to search.
+ * Return: return the value of the variable.
+ */
 char *_getenv(char *name)
 {
 	char *envar, *tmp, *envar_return = NULL;
@@ -25,6 +30,11 @@ char *_getenv(char *name)
 	return (envar_return + 1);
 }
 
+/**
+ * _getenv_with_var_name - Search in the environment for a given variable.
+ * @name: name of the variable to search.
+ * Return: return the value AND the name of the variable.
+ */
 char *_getenv_with_var_name(char *name)
 {
 	char *envar, *tmp;
@@ -45,25 +55,3 @@ char *_getenv_with_var_name(char *name)
 
 	return (envar);
 }
-
-/*
-int main(void)
-{
-	char *str;
-
-	str = _getenv("PATH");
-
-	if (str == "" || str == NULL)
-		printf("(null)\n");
-	else
-		printf("%s\n", str);
-
-	str = _getenv_with_var_name("PATH");
-
-	if (str == "" || str == NULL)
-		printf("(null)\n");
-	else
-		printf("%s\n", str);
-	return (0);
-}
-*/
