@@ -1,5 +1,11 @@
 #include "shell-header.h"
 
+/**
+ * all_execves - Calls getenv, which, and then execve
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
 void all_execves(prm_t *prm)
 {
 	char *str, *str2;
@@ -30,6 +36,14 @@ void all_execves(prm_t *prm)
 	}
 }
 
+/**
+ * create_child - Forks our program for execve.
+ * @ite: the number of time our prgram has been called
+ * @pids: an array contaning the pids of each child process
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
 void create_child(pid_t pids[], int *ite, prm_t *prm)
 {
 	int status;
@@ -49,6 +63,14 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
+/**
+ * getline_strtok_and_fork - Calls getline, strtok, and then forks
+ * @ite: the number of time our prgram has been called
+ * @pids: an array contaning the pids of each child process
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
 void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 {
 	void (*f)(prm_t *);
@@ -58,8 +80,7 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	prm->buffer = _getline(prm);
 	prm->token_array = malloc(sizeof(char *) * 10);
 	while (ite4 < 10)
-	{
-		prm->token_array[ite4] = NULL;
+	{	prm->token_array[ite4] = NULL;
 		ite4++;
 	}
 
@@ -70,11 +91,9 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 
 	str = prm->buffer;
 	for (ite2 = 0;; ite2++, str = NULL)
-	{
-		token = _strtok(str, " \t", &saveptr);
+	{	token = _strtok(str, " \t", &saveptr);
 		if (token == NULL)
-		{
-			free(prm->buffer);
+		{       free(prm->buffer);
 			break;
 		}
 		prm->token_array[ite2] = _calloc(sizeof(char), 200);
@@ -82,14 +101,12 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	}
 
 	if (prm->token_array[0] != NULL)
-	{
-		f = check_builtin(prm->token_array[0]);
+	{       f = check_builtin(prm->token_array[0]);
 		if (f != NULL)
 			f(prm);
 		else
 			create_child(pids, ite, prm);
 	}
-
 	while (ite3 < ite2)
 	{
 		free(prm->token_array[ite3]);
@@ -98,14 +115,20 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 	free(prm->token_array);
 }
 
-void CtrlC(int i)
+/**
+ * CtrlC - Is executed when the user uses Ctrl+C.
+ *
+ * Return: Nothing.
+ */
+void CtrlC(void)
 {
-	i = i;
 	write(1, "\n$ ", 3);
 }
 
 /**
- * main - execv+fork+wait demonstration (WIP)
+ * main - Intializes and starts up our shell.
+ * @argc: unused attribute
+ * @argv: array contaning the arguments passed to our function
  *
  * Return: 1 if it fails, or 0 if it succeeds.
  */

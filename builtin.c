@@ -53,7 +53,6 @@ void setenv_blt(prm_t *prm)
 		perror(prm->name);
 		return;
 	}
-
 	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
 	{
 		perror(prm->name);

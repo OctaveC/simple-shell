@@ -1,5 +1,12 @@
 #include "shell-header.h"
 
+/**
+ * _which - returns the full path associated with a command
+ * @argv: An array contaning our command and its arguments
+ * @str: The environemental variable $PATH
+ *
+ * Return: The full path of our command
+ */
 char *_which(char *argv[], char *str)
 {
 	char *token, *saveptr = NULL, *token2;
