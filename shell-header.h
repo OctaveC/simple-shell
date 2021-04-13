@@ -52,7 +52,9 @@ typedef struct sh_s
 extern char **environ;
 
 /* main functions of our program */
-
+void parsingManager(int *ite, pid_t pids[], prm_t *prm);
+void create_child(pid_t pids[], int *ite, prm_t *prm);
+void executeCmd(prm_t *prm);
 
 /* function replacing getline */
 char *_getline(prm_t *prm);

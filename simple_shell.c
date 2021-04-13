@@ -152,7 +152,7 @@ int main(int argc __attribute__((unused)), char *argv[])
 	for (ite = 0;; ite++)
 	{
 		write(STDIN_FILENO, "$ ", 2);
-		getline_strtok_and_fork(&ite, &pids[20], prm);
+		parsingManager(&ite, &pids[20], prm);
 	}
 	return (0);
 }
