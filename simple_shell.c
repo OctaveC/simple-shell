@@ -6,7 +6,7 @@ void all_execves(prm_t *prm)
 	char *truc;
 	int ite3 = 0;
 
-	str = _getenv("PATH");
+	str = _getenvvalue(prm, "PATH");
 
 	str2 = _strdup(str);
 
@@ -23,6 +23,7 @@ void all_execves(prm_t *prm)
 		}
 		free(prm->token_array);
 		perror(prm->name);
+		free_list(prm->head);
 		/*	free(prm->name); */
 		free(prm);
 		exit(0);
@@ -116,6 +117,8 @@ int main(int argc __attribute__((unused)), char *argv[])
 
 	prm = malloc(sizeof(prm_t) * 1);
 
+	prm->head = NULL;
+	prm->head = env_list(prm->head);
 	prm->buffer = "";
 	prm->name = argv[0];
 

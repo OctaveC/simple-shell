@@ -40,38 +40,40 @@ void _setenv(char *name, char *value, prm_t *prm)
 	char *name2 = _calloc(100, sizeof(char));
 
 	if (name2 == NULL)
+	{
 		perror(prm->name);
+		return;
+	}
 
-	if (name == NULL)
+	if (name == NULL || value == NULL)
+	{
 		perror(prm->name);
-
+		return;
+	}
 	while (name[ite] != '\0')
 	{
 		if (name[ite] == '=')
+		{
 			perror(prm->name);
+			return;
+		}
 		ite++;
 	}
-
-	while (environ[ite2] != NULL)
-		ite2++;
 
 	_strcat(name2, name);
 	_strcat(name2, "=");
 	_strcat(name2, value);
 
-	str = _getenv_with_var_name(name);
+	str = _getenvnode(prm, name);
 
 	if (str == NULL)
 	{
-		environ[ite2] = name2;
-		environ[ite2 + 1] = '\0';
+		add_node_end(&prm->head, name2);
 	}
 	else if (value != NULL)
 	{
-		while (environ[ite3] != str)
-			ite3++;
-		_strcpy(environ[ite3], name2);
-		free(name2);
+		_unsetenv(name, prm);
+		add_node_end(&prm->head, name2);
 	}
 }
 
@@ -79,30 +81,32 @@ void _unsetenv(char *name, prm_t *prm)
 {
 	char *str;
 	int size = 0, ite = 0, pos = 0, ite2 = 0;
-
-	while (environ[size] != NULL)
-		size++;
+	list_t *h = prm->head;
 
 	if (name == NULL)
+	{
 		perror(prm->name);
-
+		return;
+	}
 	while (name[ite2] != '\0')
 	{
 		if (name[ite2] == '=')
+		{
 			perror(prm->name), exit(0);
+			return;
+		}
 		ite2++;
 	}
 
-	str = _getenv_with_var_name(name);
+	str = _getenvnode(prm, name);
 
-	while (environ[pos] != str)
-		pos++;
-
-	/* Copy next element value to current element */
-	for (ite = pos; ite < size; ite++)
+	while (h->str != str)
 	{
-		environ[ite] = environ[ite + 1];
+		h = h->next;
+		pos++;
 	}
+
+	delete_nodeint_at_index(&prm->head, pos);
 }
 
 /**

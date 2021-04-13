@@ -21,6 +21,7 @@ char *_getline(prm_t *prm)
 		rd = read(STDIN_FILENO, &c, 1);
 		if (rd == 0)
 		{
+			free_list(prm->head);
 			free(prm->buffer);
 			free(prm);
 			write(STDIN_FILENO, "\n", 1);
