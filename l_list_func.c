@@ -18,11 +18,11 @@ size_t print_list(list_t *h)
 	{
 		if (h->str == NULL)
 		{
-			printf("[0] (nil)\n");
+			_puts("[0] (nil)\n");
 		}
 		else
 		{
-			printf("%s\n", h->str);
+			_puts(h->str);
 		}
 		h = h->next;
 		i++;
@@ -57,7 +57,6 @@ list_t *createNodeList(list_t **head, char *str)
 	}
 
 	node->str = _strdup(str);
-	/* printf("%s\n", node->str); */
 	node->next = NULL;
 
 	if (*head == NULL)
@@ -95,7 +94,7 @@ list_t *add_node_end(list_t **head, char *str)
 	while (str[count] != '\0')
 		count++;
 
-	h->str = strdup(str);
+	h->str = _strdup(str);
 	free(str);
 	h->next = NULL;
 	/* if the head is NULL, it is an empty list */

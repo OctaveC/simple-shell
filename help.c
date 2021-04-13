@@ -45,5 +45,5 @@ void help_blt(prm_t *prm)
 	}
 	close(opening);
 	free(path);
-	putchar('\n');
+	_putchar('\n');
 }
