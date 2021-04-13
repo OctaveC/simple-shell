@@ -19,6 +19,7 @@ void exit_blt(prm_t *prm)
 		free(prm->token_array[ite2]);
 		ite2++;
 	}
+	free_list(prm->head);
 	free(prm->token_array);
 	free(prm);
 	exit(extcode);
@@ -26,13 +27,7 @@ void exit_blt(prm_t *prm)
 
 void env_blt(prm_t *prm __attribute__((unused)))
 {
-	int ite = 0;
-
-	while (environ[ite] != NULL)
-	{
-		_puts(environ[ite]);
-		ite++;
-	}
+	print_list(prm->head);
 }
 
 void setenv_blt(prm_t *prm)
@@ -62,14 +57,14 @@ void setenv_blt(prm_t *prm)
 		ite++;
 	}
 
-	while (environ[ite2] != NULL)
-		ite2++;
+	/* while (environ[ite2] != NULL)
+		ite2++; */
 
 	_strcat(name2, prm->token_array[1]);
 	_strcat(name2, "=");
 	_strcat(name2, prm->token_array[2]);
 
-	str = _getenv_with_var_name(prm->token_array[1]);
+	str = _getenvnode(prm, prm->token_array[1]);
 
 	if (str == NULL)
 	{
@@ -77,6 +72,8 @@ void setenv_blt(prm_t *prm)
 		environ[ite2] = _calloc(100, sizeof(char));
 		_strcat(environ[ite2], name2);
 		environ[ite2 + 1] = '\0';
+		createNodeList(&prm->head, environ[ite2]);
+		free(environ[ite2]);
 		free(name2);
 	}
 	else if (prm->token_array[2] != NULL)
@@ -91,11 +88,8 @@ void setenv_blt(prm_t *prm)
 void unsetenv_blt(prm_t *prm)
 {
 	char *str;
-	int size = 0, ite = 0, pos = 0, ite2 = 0;
-	extern char **environ;
-
-	while (environ[size] != NULL)
-		size++;
+	int pos = 0, ite2 = 0;
+	list_t *h = prm->head;
 
 	/* A faire: Utiliser prm.setenv_name ou prm->setenv_name selon la manière dont notre struct est formulée */
 
@@ -113,16 +107,21 @@ void unsetenv_blt(prm_t *prm)
 		ite2++;
 	}
 
-	str = _getenv_with_var_name(prm->token_array[1]);
+	str = _getenvnode(prm, prm->token_array[1]);
 
-	while (environ[pos] != str)
+	while (h->str != str)
+	{
+		h = h->next;
 		pos++;
+	}	
+
+	delete_nodeint_at_index(&prm->head, pos);
 
 	/* Copy next element value to current element */
-	for (ite = pos; ite < size; ite++)
+	/* for (ite = pos; ite < size; ite++)
 	{
 		environ[ite] = environ[ite + 1];
-	}
+	} */
 }
 
 void cd_blt(prm_t *prm)

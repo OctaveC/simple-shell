@@ -116,6 +116,8 @@ int main(int argc __attribute__((unused)), char *argv[])
 
 	prm = malloc(sizeof(prm_t) * 1);
 
+	prm->head = NULL;
+	prm->head = env_list(prm->head);
 	prm->buffer = "";
 	prm->name = argv[0];
 

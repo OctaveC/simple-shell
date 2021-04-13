@@ -9,11 +9,19 @@
 #include <signal.h>
 #include <fcntl.h>
 
+typedef struct list_s
+{
+	char *str;
+	struct list_s *next;
+
+} list_t;
+
 typedef struct prm_s
 {
 	char **token_array;
 	char *buffer;
 	char *name;
+	list_t *head;
 } prm_t;
 
 typedef struct sh_s
@@ -53,5 +61,13 @@ char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
 char *_calloc(unsigned int nmemb, unsigned int size);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+list_t *createNodeList(list_t **head, char *str);
+size_t print_list(list_t *h);
+list_t *env_list(list_t *head);
+void free_list(list_t *head);
+/* void deleteNodeList(list_t **head, char *str); */
+int delete_nodeint_at_index(list_t **head, unsigned int index);
+char *_getenvvalue(prm_t *prm, char *name);
+char *_getenvnode(prm_t *prm, char *name);
 
 #endif
