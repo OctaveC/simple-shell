@@ -117,11 +117,12 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
 
 /**
  * CtrlC - Is executed when the user uses Ctrl+C.
- *
+ * @i: who know why that's there
  * Return: Nothing.
  */
-void CtrlC(void)
+void CtrlC(int i)
 {
+	i = i;
 	write(1, "\n$ ", 3);
 }
 
