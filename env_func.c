@@ -73,7 +73,7 @@ char *_getenvnode(prm_t *prm, char *name)
 void _setenv(char *name, char *value, prm_t *prm)
 {
 	char *str;
-	int ite = 0, ite2 = 0, ite3 = 0;
+	int ite = 0;
 	char *name2 = _calloc(100, sizeof(char));
 
 	if (name2 == NULL)
@@ -122,7 +122,7 @@ void _setenv(char *name, char *value, prm_t *prm)
 void _unsetenv(char *name, prm_t *prm)
 {
 	char *str;
-	int size = 0, ite = 0, pos = 0, ite2 = 0;
+	int pos = 0, ite2 = 0;
 	list_t *h = prm->head;
 
 	if (name == NULL)
