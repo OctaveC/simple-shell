@@ -9,6 +9,10 @@
 #include <signal.h>
 #include <fcntl.h>
 
+/**
+ * prm_s - structure containing useful variables
+ * 
+ */
 typedef struct prm_s
 {
 	char **token_array;
@@ -16,6 +20,10 @@ typedef struct prm_s
 	char *name;
 } prm_t;
 
+/**
+ * 
+ * 
+ */
 typedef struct sh_s
 {
 	char *data;

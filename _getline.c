@@ -1,9 +1,10 @@
 #include "shell-header.h"
 
 /**
- * 
+ * _getline - Assigns what's currently in stdin to a buffer.
+ * @prm: our structure, containing various parameters
  *
- * 
+ * Return: A buffer containing the line
  */
 char *_getline(prm_t *prm)
 {
@@ -29,7 +30,8 @@ char *_getline(prm_t *prm)
 		if (ite >= buffersize - 1)
 		{
 			buffersize += 2;
-			prm->buffer = _realloc(prm->buffer, buffersize - 2, sizeof(char) * buffersize);
+			prm->buffer = _realloc(prm->buffer, buffersize - 2,
+					       sizeof(char) * buffersize);
 		}
 		prm->buffer[ite] = c;
 		ite++;

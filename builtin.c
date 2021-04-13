@@ -1,5 +1,9 @@
 #include "shell-header.h"
 
+/**
+ * exit_blt - exits the program
+ * @prm: our structure, containing various parameters
+ */
 void exit_blt(prm_t *prm)
 {
 	int ite2 = 0;
@@ -24,6 +28,10 @@ void exit_blt(prm_t *prm)
 	exit(extcode);
 }
 
+/**
+ * env_blt - displays the environement
+ * @prm: our structure, containing various parameters
+ */
 void env_blt(prm_t *prm __attribute__((unused)))
 {
 	int ite = 0;
@@ -35,11 +43,16 @@ void env_blt(prm_t *prm __attribute__((unused)))
 	}
 }
 
+/**
+ * setenv_blt - adds an environemental variable to the environement
+ * @prm: our structure, containing various parameters
+ */
 void setenv_blt(prm_t *prm)
 {
 	char *str;
 	int ite = 0, ite2 = 0, ite3 = 0;
 	char *name2 = _calloc(100, sizeof(char));
+
 	if (name2 == NULL)
 	{
 		perror(prm->name);
@@ -88,11 +101,14 @@ void setenv_blt(prm_t *prm)
 	}
 }
 
+/**
+ * unsetenv_blt - deletes an environemental variable from the environement
+ * @prm: our structure, containing various parameters
+ */
 void unsetenv_blt(prm_t *prm)
 {
 	char *str;
 	int size = 0, ite = 0, pos = 0, ite2 = 0;
-	extern char **environ;
 
 	while (environ[size] != NULL)
 		size++;
@@ -125,6 +141,10 @@ void unsetenv_blt(prm_t *prm)
 	}
 }
 
+/**
+ * cd_blt - adds an environemental variable to the environement
+ * @prm: our structure, containing various parameters
+ */
 void cd_blt(prm_t *prm)
 {
 	int chdir_return;
@@ -148,33 +168,4 @@ void cd_blt(prm_t *prm)
 
 	_setenv("OLDPWD", _getenv("PWD"), prm);
 	_setenv("PWD", getcwd(buffer_cwd, 500), prm);
-}
-
-/**
- * 
- * 
- */
-void (*check_builtin(char *token))(prm_t *)
-{
-	sh_t bltin[] = {
-	    {"exit", exit_blt},
-	    {"env", env_blt},
-	    {"setenv", setenv_blt},
-	    {"unsetenv", unsetenv_blt},
-	    {"cd", cd_blt},
-	    {"help", help_blt},
-	    {NULL, NULL}
-	};
-	int ite = 0;
-
-	while ((bltin + ite)->data)
-	{
-		if (_strcmp(token, (bltin + ite)->data) == 0)
-		{
-			return ((bltin + ite)->f);
-		}
-		ite++;
-	}
-
-	return (NULL);
 }

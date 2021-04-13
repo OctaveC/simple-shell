@@ -1,41 +1,65 @@
-.TH simple_shell "4 April 2021" "14 days Duo Project"
+.TH simple-shell "4 April 2021" "14 days Duo Project"
 .SH NAME
-.B simple_shell
+.B simple-shell
 .SH SYNOPSIS
-.B #include \(dqholberton.h\(dq
+.I
+.B
 .sp
-.B int simple-shell(const char
-*
-.I format
-.B , ...);
-.sp
-.RB _printf
-.I FORMAT
-.B [ARGUMENTS]
+.RB echo
+.B [COMMANDS]
+| ./simple-shell
+ ./simple-shell
 .SH DESCRIPTION
-.BR simple_shell
-is function that is meant to imitate the working of the shell.
+.BR simple-shell
+is a function that is meant to imitate the working of the shell.
 
-It is supposed to work in a basically identifcal manner to the real one.
+It is meant to work in a similar manner to /bin/bash, and it can be used in both interactive and non-interactive modes.
+
+"Ctrl+D" is used to exit this program, as well as the built-in "exit".
 .sp
 .RB On
 .RB success,
 .RI simple-shell
-can do very many things.
-.sp
-.RI Return " -1"
-if
+will execute the command.
 .SH OPTIONS
-.RB
+
+Because of the limited scale of this project, the built-ins available are:
+
+.sp
+.B cd
+-
+Changes the current working directory.
+.sp
+.B help
+-
+Used to to get more information on the available built-in commands.
+.sp
+.B env
+-
+Displays the environement.
+.sp
+.B setenv
+-
+Adds or modifies an environemental variable.
+.sp
+.B unsetenv
+-
+Deltes an existing environemental variable.
+.sp
+.B exit
+-
+Exits the program.
 .SH NOTES
-.RB
+
+Please use the help command to get information on the built-ins, type 'help help' inside the shell for more information.
 .SH Exemple
-simple-shell ls
+echo "ls" | ./simple-shell
 
 .B generate-authors.sh  man_simple-shell  README.md
 .SH BUGS
-Not yet.
+Still a few memory leaks for setenv and unsetenv.
 .SH AUTHOR
 Nathan Lapeyre and Octave Collombel for HolbertonSchool project.
 .SH SEE ALSO
 .RB
+bash(1)
