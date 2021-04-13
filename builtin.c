@@ -45,7 +45,7 @@ void env_blt(prm_t *prm __attribute__((unused)))
 void setenv_blt(prm_t *prm)
 {
 	char *str;
-	int ite = 0, ite2 = 0, ite3 = 0;
+	int ite = 0;
 	char *name2 = _calloc(100, sizeof(char));
 
 	if (name2 == NULL)

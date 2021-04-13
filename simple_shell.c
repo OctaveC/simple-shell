@@ -1,12 +1,12 @@
 #include "shell-header.h"
 
 /**
- * all_execves - Calls getenv, which, and then execve
+ * executeCmd - Calls getenv, which, and then execve
  * @prm: Our structure, contaning various useful variables.
  *
  * Return: Nothing.
  */
-void all_execves(prm_t *prm)
+void executeCmd(prm_t *prm)
 {
 	char *str, *str2;
 	char *truc;
@@ -57,21 +57,22 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 	}
 	else if (pids[*(ite)] == 0)
 	{
-		all_execves(prm);
+		executeCmd(prm);
 	}
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
 /**
- * getline_strtok_and_fork - Calls getline, strtok, and then forks
+ * parsingManager - Manage the parsing of the arguments and call our
+ * check builtins or fork functions.
  * @ite: the number of time our prgram has been called
  * @pids: an array contaning the pids of each child process
  * @prm: Our structure, contaning various useful variables.
  *
  * Return: Nothing.
  */
-void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm)
+void parsingManager(int *ite, pid_t pids[], prm_t *prm)
 {
 	void (*f)(prm_t *);
 	char *token, *str, *saveptr;
