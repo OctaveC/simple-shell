@@ -17,30 +17,23 @@ int _isDigit(char c)
  */
 int _atoi(char *s)
 {
-	int operand = 1, size = _strlen(s), i;
-	char current;
-	unsigned int nb = 0;
+	int ite1 = 0, ite2, num = 0, sign = 1;
 
-	for (i = 0; i < size; i++)
+	while (s[ite1] != '\0' && (s[ite1] < '0' || s[ite1] > '9'))
 	{
-		current = s[i];
-
-		if (_isDigit(current))
+		if (s[ite1] == '-')
 		{
-			nb *= 10;
-			nb *= current - 48;
+			sign *= -1;
 		}
-		else if (current == '-')
-		{
-			operand = -operand;
-		}
-		else if (nb > 0)
-		{
-			break;
-		}
+		ite1++;
 	}
-
-	return (operand * nb);
+	ite2 = ite1;
+	while (s[ite2] >= '0' && s[ite2] <= '9')
+	{
+		num = (num * 10) + (s[ite2] - '0') * sign;
+		ite2++;
+	}
+	return (num);
 }
 
 /**
