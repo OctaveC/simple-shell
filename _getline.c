@@ -1,10 +1,10 @@
 #include "shell-header.h"
 
 /**
- * 
- * 
+ * _getline - Assigns what's currently in stdin to a buffer.
+ * @prm: our structure, containing various parameters
  *
- * 
+ * Return: A buffer containing the line
  */
 char *_getline(prm_t *prm)
 {
@@ -13,7 +13,7 @@ char *_getline(prm_t *prm)
 	int ite = 0;
 	int buffersize = 256;
 
-	prm->buffer = calloc(sizeof(char), buffersize);
+	prm->buffer = _calloc(sizeof(char), buffersize);
 	c = '\0';
 
 	while (c != '\n' && c != EOF)
@@ -21,19 +21,20 @@ char *_getline(prm_t *prm)
 		rd = read(STDIN_FILENO, &c, 1);
 		if (rd == 0)
 		{
+			free_list(prm->head);
 			free(prm->buffer);
 			free(prm);
 			write(STDIN_FILENO, "\n", 1);
 			exit(EOF);
 		}
 
-		    prm->buffer[ite] = c;
-
-		if (ite >= buffersize)
+		if (ite >= buffersize - 1)
 		{
-			buffersize += 1;
-			prm->buffer = realloc(prm->buffer, sizeof(char) * buffersize);
+			buffersize += 2;
+			prm->buffer = _realloc(prm->buffer, buffersize - 2,
+					       sizeof(char) * buffersize);
 		}
+		prm->buffer[ite] = c;
 		ite++;
 	}
 	prm->buffer[ite] = '\0';

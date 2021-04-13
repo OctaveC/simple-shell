@@ -1,0 +1,5 @@
+Usage: exit [STATUS]
+This command exits the program through normal process termination,
+returning a status of [STATUS] to the shell’s parent.
+
+If [STATUS] is omitted, the exit status is that of the last command executed.

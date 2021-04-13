@@ -1,14 +1,20 @@
 #include "shell-header.h"
 
-void all_execves(prm_t *prm, char *name)
+/**
+ * executeCmd - Calls getenv, which, and then execve
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
+void executeCmd(prm_t *prm)
 {
 	char *str, *str2;
 	char *truc;
 	int ite3 = 0;
 
-	str = getenv("PATH");
+	str = _getenvvalue(prm, "PATH");
 
-	str2 = strdup(str);
+	str2 = _strdup(str);
 
 	truc = _which(prm->token_array, str2);
 
@@ -22,13 +28,23 @@ void all_execves(prm_t *prm, char *name)
 			ite3++;
 		}
 		free(prm->token_array);
+		perror(prm->name);
+		free_list(prm->head);
+		/*	free(prm->name); */
 		free(prm);
-		perror(name);
 		exit(0);
 	}
 }
 
-void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
+/**
+ * create_child - Forks our program for execve.
+ * @ite: the number of time our prgram has been called
+ * @pids: an array contaning the pids of each child process
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
+void create_child(pid_t pids[], int *ite, prm_t *prm)
 {
 	int status;
 
@@ -36,60 +52,62 @@ void create_child(pid_t pids[], int *ite, prm_t *prm, char *name)
 
 	if (pids[*(ite)] == -1)
 	{
-		perror(name);
+		perror(prm->name);
 		exit(0);
 	}
 	else if (pids[*(ite)] == 0)
-		all_execves(prm, name);
+	{
+		executeCmd(prm);
+	}
 	else
 		waitpid(pids[*(ite)], &status, WUNTRACED);
 }
 
-void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
+/**
+ * parsingManager - Manage the parsing of the arguments and call our
+ * check builtins or fork functions.
+ * @ite: the number of time our prgram has been called
+ * @pids: an array contaning the pids of each child process
+ * @prm: Our structure, contaning various useful variables.
+ *
+ * Return: Nothing.
+ */
+void parsingManager(int *ite, pid_t pids[], prm_t *prm)
 {
 	void (*f)(prm_t *);
 	char *token, *str, *saveptr;
-	int ite2, ite3 = 0, len = 0;
+	int ite2, ite3 = 0, ite4 = 0, len = 0;
 
 	prm->buffer = _getline(prm);
-
-	prm->token_array = calloc(sizeof(char *), 10);
+	prm->token_array = malloc(sizeof(char *) * 10);
+	while (ite4 < 10)
+	{	prm->token_array[ite4] = NULL;
+		ite4++;
+	}
 
 	while (prm->buffer[len] != '\0')
-	{
 		len++;
-	}
 	if (prm->buffer[len - 1] == '\n')
-	{
 		prm->buffer[len - 1] = '\0';
-	}
 
 	str = prm->buffer;
-
 	for (ite2 = 0;; ite2++, str = NULL)
-	{
-		token = _strtok(str, " \t", &saveptr);
+	{	token = _strtok(str, " \t", &saveptr);
 		if (token == NULL)
-		{
-			free(prm->buffer);
+		{       free(prm->buffer);
 			break;
 		}
-		prm->token_array[ite2] = calloc(sizeof(char), 200);
-		strcat(prm->token_array[ite2], token);
+		prm->token_array[ite2] = _calloc(sizeof(char), 200);
+		_strcat(prm->token_array[ite2], token);
 	}
 
-	if (str == NULL)
-	{
-		f = check_builtin(prm->token_array[0]);
+	if (prm->token_array[0] != NULL)
+	{       f = check_builtin(prm->token_array[0]);
 		if (f != NULL)
-		{
 			f(prm);
-		}
+		else
+			create_child(pids, ite, prm);
 	}
-
-	create_child(pids, ite, prm, name);
-
-	ite3 = 0;
 	while (ite3 < ite2)
 	{
 		free(prm->token_array[ite3]);
@@ -98,6 +116,11 @@ void getline_strtok_and_fork(int *ite, pid_t pids[], prm_t *prm, char *name)
 	free(prm->token_array);
 }
 
+/**
+ * CtrlC - Is executed when the user uses Ctrl+C.
+ * @i: who know why that's there
+ * Return: Nothing.
+ */
 void CtrlC(int i)
 {
 	i = i;
@@ -105,7 +128,9 @@ void CtrlC(int i)
 }
 
 /**
- * main - execv+fork+wait demonstration (WIP)
+ * main - Intializes and starts up our shell.
+ * @argc: unused attribute
+ * @argv: array contaning the arguments passed to our function
  *
  * Return: 1 if it fails, or 0 if it succeeds.
  */
@@ -114,17 +139,20 @@ int main(int argc __attribute__((unused)), char *argv[])
 	int ite = 0;
 	pid_t pids[20];
 	prm_t *prm;
-	char *name;
 
-	prm = calloc(sizeof(prm_t), 1);
-	name = argv[0];
+	prm = malloc(sizeof(prm_t) * 1);
+
+	prm->head = NULL;
+	prm->head = env_list(prm->head);
+	prm->buffer = "";
+	prm->name = argv[0];
 
 	signal(SIGINT, CtrlC);
 
 	for (ite = 0;; ite++)
 	{
 		write(STDIN_FILENO, "$ ", 2);
-		getline_strtok_and_fork(&ite, &pids[20], prm, name);
+		parsingManager(&ite, &pids[20], prm);
 	}
 	return (0);
 }

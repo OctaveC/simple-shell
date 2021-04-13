@@ -1,0 +1,10 @@
+Usage: help [BUILTIN]
+This command is used to to get some information on the available built-in commands.
+
+For the scale of this project, the built-ins are limited to:
+help
+cd
+env
+setenv
+unsetenv
+exit

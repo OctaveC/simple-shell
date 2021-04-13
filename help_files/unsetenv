@@ -1,0 +1,3 @@
+Usage: unsetenv [NAME]
+This command deletes the variable [NAME] from the environment.
+If [NAME] does not exist in the environment, then the environment stays unchanged.
