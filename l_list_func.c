@@ -167,25 +167,6 @@ int delete_nodeint_at_index(list_t **head, unsigned int index)
 }
 
 /**
- * env_list - Turns the environ array into a linked list
- * @head: The head of the list
- *
- * Return: The address of the new element, or NULL if it failed
- */
-list_t *env_list(list_t *head)
-{
-	int ite = 0;
-
-	while (environ[ite] != NULL)
-	{
-		createNodeList(&head, environ[ite]);
-		ite++;
-	}
-
-	return (head);
-}
-
-/**
  * free_list - Frees a list_t list.
  * @head: Beginning node of our list.
  */
@@ -200,68 +181,4 @@ void free_list(list_t *head)
 	free_list(head->next);
 	free(head->str);
 	free(head);
-}
-
-/**
- * _getenvvalue - Search in the environment for a given variable.
- * @prm: our structure, contaning various useful parameters
- * @name: name of the variable to search.
- *
- * Return: The value of the variable.
- */
-char *_getenvvalue(prm_t *prm, char *name)
-{
-	char *envar, *tmp, *envar_return = NULL;
-	int ite = 0;
-	list_t *h;
-
-	h = prm->head;
-	envar = NULL;
-	while (h != NULL)
-	{
-		tmp = h->str;
-		for (ite = 0; tmp[ite] == name[ite];)
-		{
-			ite++;
-			if (tmp[ite] == '=' && name[ite] == '\0')
-				envar = tmp;
-		}
-		h = h->next;
-	}
-
-	envar_return = _strchr(envar, '=');
-	if (envar_return == NULL || envar_return + 1 == NULL)
-		return ("");
-
-	return (envar_return + 1);
-}
-
-/**
- * _getenvnode - Search in the environment for a given variable.
- * @prm: our structure, contaning various useful parameters
- * @name: name of the variable to search.
- *
- * Return: The environemental variable itself.
- */
-char *_getenvnode(prm_t *prm, char *name)
-{
-	char *envar, *tmp;
-	int ite = 0;
-	list_t *h;
-
-	h = prm->head;
-	envar = NULL;
-	while (h != NULL)
-	{
-		tmp = h->str;
-		for (ite = 0; tmp[ite] == name[ite];)
-		{
-			ite++;
-			if (tmp[ite] == '=' && name[ite] == '\0')
-				envar = tmp;
-		}
-		h = h->next;
-	}
-
-	return (envar);
 }
