@@ -97,7 +97,7 @@ void parsingManager(int *ite, pid_t pids[], prm_t *prm)
 		{       free(prm->buffer);
 			break;
 		}
-		prm->token_array[ite2] = _calloc(sizeof(char), 200);
+		prm->token_array[ite2] = _calloc(sizeof(char), (_strlen(token) + 1));
 		_strcat(prm->token_array[ite2], token);
 	}
 

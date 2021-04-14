@@ -84,10 +84,12 @@ char *_getenvnode(prm_t *prm, char *name);
 void _unsetenv(char *name, prm_t *prm);
 void _setenv(char *name, char *value, prm_t *prm);
 list_t *createNodeList(list_t **head, char *str);
+list_t *add_node_end(list_t **head, char *str);
 size_t print_list(list_t *h);
 list_t *env_list(list_t *head);
-int delete_nodeint_at_index(list_t **head, unsigned int index);
-list_t *add_node_end(list_t **head, char *str);
+list_t *insert_node_at_index(list_t **head, unsigned int idx, char *str);
+int delete_node_at_index(list_t **head, unsigned int index);
+
 
 /* functionq that write text to stdin our stdout */
 void _puts(char *str);

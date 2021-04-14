@@ -45,46 +45,47 @@ void env_blt(prm_t *prm __attribute__((unused)))
 void setenv_blt(prm_t *prm)
 {
 	char *str;
-	int ite = 0;
-	char *name2 = _calloc(100, sizeof(char));
+	int ite = 0, index = 0;
+	list_t *h = prm->head;
+	char *name2;
 
-	if (name2 == NULL)
-	{
-		perror(prm->name);
-		return;
-	}
 	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
-	{
-		perror(prm->name);
+	{	perror(prm->name);
 		return;
 	}
-
 	while (prm->token_array[1][ite] != '\0')
 	{
 		if (prm->token_array[1][ite] == '=')
-		{
-			perror(prm->name);
+		{	perror(prm->name);
 			return;
 		}
 		ite++;
 	}
-
+	name2 = _calloc(sizeof(char), (_strlen(prm->token_array[1]) +
+				       _strlen(prm->token_array[2]) + 2));
+	if (name2 == NULL)
+	{       perror(prm->name);
+		return;
+	}
 	_strcat(name2, prm->token_array[1]);
 	_strcat(name2, "=");
 	_strcat(name2, prm->token_array[2]);
-
 	str = _getenvnode(prm, prm->token_array[1]);
-
 	if (str == NULL)
-	{
 		add_node_end(&prm->head, name2);
-	}
 	else if (prm->token_array[2] != NULL)
 	{
-		_unsetenv(prm->token_array[1], prm);
-		add_node_end(&prm->head, name2);
+		while (h->str != str)
+		{
+			h = h->next;
+			index++;
+		}
+		delete_node_at_index(&prm->head, index);
+		insert_node_at_index(&prm->head, index, name2);
+		free(name2);
 	}
 }
+
 
 /**
  * unsetenv_blt - deletes an environemental variable from the environement
@@ -116,7 +117,7 @@ void unsetenv_blt(prm_t *prm)
 		pos++;
 	}
 
-	delete_nodeint_at_index(&prm->head, pos);
+	delete_node_at_index(&prm->head, pos);
 }
 
 /**

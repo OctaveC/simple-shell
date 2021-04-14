@@ -32,7 +32,7 @@ char *_which(char *argv[], char *str)
 		{
 			break;
 		}
-		token2 = _calloc(200, sizeof(char));
+		token2 = _calloc(sizeof(char), (_strlen(token) + _strlen(argv[0]) + 2));
 		_strcat(token2, token);
 		_strcat(token2, "/");
 		_strcat(token2, argv[0]);

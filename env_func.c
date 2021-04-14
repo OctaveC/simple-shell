@@ -73,44 +73,43 @@ char *_getenvnode(prm_t *prm, char *name)
 void _setenv(char *name, char *value, prm_t *prm)
 {
 	char *str;
-	int ite = 0;
-	char *name2 = _calloc(100, sizeof(char));
-
-	if (name2 == NULL)
-	{
-		perror(prm->name);
-		return;
-	}
+	int ite = 0, index = 0;
+	list_t *h = prm->head;
+	char *name2;
 
 	if (name == NULL || value == NULL)
-	{
-		perror(prm->name);
+	{	perror(prm->name);
 		return;
 	}
 	while (name[ite] != '\0')
 	{
 		if (name[ite] == '=')
-		{
-			perror(prm->name);
+		{	perror(prm->name);
 			return;
 		}
 		ite++;
 	}
-
+	name2 = _calloc(sizeof(char), (_strlen(name) + _strlen(value) + 2));
+	if (name2 == NULL)
+	{       perror(prm->name);
+		return;
+	}
 	_strcat(name2, name);
 	_strcat(name2, "=");
 	_strcat(name2, value);
-
 	str = _getenvnode(prm, name);
-
 	if (str == NULL)
-	{
 		add_node_end(&prm->head, name2);
-	}
 	else if (value != NULL)
 	{
-		_unsetenv(name, prm);
-		add_node_end(&prm->head, name2);
+		while (h->str != str)
+		{
+			h = h->next;
+			index++;
+		}
+		delete_node_at_index(&prm->head, index);
+		insert_node_at_index(&prm->head, index, name2);
+		free(name2);
 	}
 }
 
@@ -148,7 +147,7 @@ void _unsetenv(char *name, prm_t *prm)
 		pos++;
 	}
 
-	delete_nodeint_at_index(&prm->head, pos);
+	delete_node_at_index(&prm->head, pos);
 }
 
 /**
