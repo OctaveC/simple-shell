@@ -6,17 +6,29 @@
  */
 void exit_blt(prm_t *prm)
 {
-	int ite2 = 0;
+	int ite2 = 0, ite3 = 0;
 	int status = prm->status;
 
 	if (prm == NULL)
 	{
 		return;
 	}
-
 	if (prm->token_array[1] != NULL)
 	{
+		while (prm->token_array[1][ite3] != '\0')
+		{
+			if (prm->token_array[1][ite3] >= '0' && prm->token_array[1][ite3] <= '9')
+				;
+			else
+			{
+				error_handler_cd(prm, "Illegal number: ");
+				return;
+			}
+			ite3++;
+		}
 		status = _atoi(prm->token_array[1]);
+		if (status < 0)
+			return;
 	}
 	while (prm->token_array[ite2] != NULL)
 	{
