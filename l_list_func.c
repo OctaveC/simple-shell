@@ -47,6 +47,7 @@ list_t *createNodeList(list_t **head, char *str)
 	if (head == NULL)
 	{
 		perror("Critical Error");
+		return (NULL);
 	}
 
 	node = malloc(sizeof(list_t));
@@ -54,6 +55,7 @@ list_t *createNodeList(list_t **head, char *str)
 	if (node == NULL)
 	{
 		perror("Memory can not be allocated");
+		return (NULL);
 	}
 
 	node->str = _strdup(str);
