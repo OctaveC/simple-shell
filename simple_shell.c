@@ -170,6 +170,7 @@ int main(int argc __attribute__((unused)), char *argv[])
 
 	signal(SIGINT, CtrlC);
 
+/*	_unsetenv("OLDPWD", prm); */
 	for (ite = 1;; ite++)
 	{
 		prm->ite = ite;

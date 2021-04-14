@@ -142,8 +142,8 @@ void cd_blt(prm_t *prm)
 		chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
 		if (chdir_return == -1)
 		{
-			perror(prm->name);
-			return;
+			_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
+			chdir_return = 0;
 		}
 		_puts(getcwd(buffer_cwd, 500));
 	}
