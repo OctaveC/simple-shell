@@ -147,7 +147,7 @@ void cd_blt(prm_t *prm)
 
 	if (chdir_return == -1)
 	{
-		perror(prm->name), prm->status = 2;
+		perror(prm->name);
 		return;
 	}
 
