@@ -15,8 +15,6 @@ void executeCmd(prm_t *prm)
 	str = _getenvvalue(prm, "PATH");
 
 	str2 = _strdup(str);
-	if (str2 == NULL)
-		exit(1);
 
 	path = _which(prm->token_array, str2);
 
