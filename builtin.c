@@ -7,7 +7,7 @@
 void exit_blt(prm_t *prm)
 {
 	int ite2 = 0;
-	int extcode = EXIT_SUCCESS;
+	int status = prm->status;
 
 	if (prm == NULL)
 	{
@@ -16,7 +16,7 @@ void exit_blt(prm_t *prm)
 
 	if (prm->token_array[1] != NULL)
 	{
-		extcode = _atoi(prm->token_array[1]);
+		prm->status = _atoi(prm->token_array[1]);
 	}
 	while (prm->token_array[ite2] != NULL)
 	{
@@ -26,7 +26,7 @@ void exit_blt(prm_t *prm)
 	free_list(prm->head);
 	free(prm->token_array);
 	free(prm);
-	exit(extcode);
+	exit(status);
 }
 
 /**

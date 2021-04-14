@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <fcntl.h>
-
+#include <errno.h>
 
 /**
  * struct list_s - structure containing useful variables
@@ -28,13 +28,17 @@ typedef struct list_s
  * @buffer: a buffer containing the line returned by getline
  * @name: the name of our program
  * @head: the head of a linked list containing the environement
+ * @status: the status of our process at exit.
+ * @ite: how many times we have executed a function.
  */
 typedef struct prm_s
 {
 	char **token_array;
 	char *buffer;
 	char *name;
+	int status;
 	list_t *head;
+	int ite;
 } prm_t;
 
 /**
@@ -67,6 +71,9 @@ char *_strtok(char *str, char *sep, char **saveptr);
 
 /* function that checks if a command is a built-in */
 void (*check_builtin(char *token))(prm_t *);
+
+/* function that handle errors */
+void error_handler(prm_t *prm, char *error_str);
 
 /* built-ins */
 void cd_blt(prm_t *prm);
@@ -105,6 +112,7 @@ int _isDigit(char c);
 int _atoi(char *s);
 char *_strcpy(char *dest, char *src);
 char *_strcat(char *dest, char *src);
+char *_itoa(int num);
 
 /* functions handling memory */
 char *_memcpy(char *dest, char *src, unsigned int n);
