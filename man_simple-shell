@@ -13,7 +13,7 @@
 .BR simple-shell
 is a function that is meant to imitate the working of the shell.
 
-It is meant to work in a similar manner to /bin/bash, and it can be used in both interactive and non-interactive modes.
+It is meant to work in a similar manner to /bin/sh, and it can be used in both interactive and non-interactive modes.
 
 "Ctrl+D" is used to exit this program, as well as the built-in "exit".
 .sp
