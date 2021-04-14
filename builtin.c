@@ -140,6 +140,11 @@ void cd_blt(prm_t *prm)
 	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
 		chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
+		if (chdir_return == -1)
+		{
+			perror(prm->name);
+			return;
+		}
 		_puts(getcwd(buffer_cwd, 500));
 	}
 	else
