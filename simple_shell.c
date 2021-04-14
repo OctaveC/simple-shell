@@ -16,7 +16,7 @@ void executeCmd(prm_t *prm)
 
 	str2 = _strdup(str);
 
-	truc = _which(prm->token_array, str2);
+	path = _which(prm->token_array, str2);
 
 	free(str2);
 
@@ -30,7 +30,6 @@ void executeCmd(prm_t *prm)
 		}
 		free(prm->token_array);
 		free_list(prm->head);
-		/*	free(prm->name); */
 		free(prm);
 		exit(127);
 	}
@@ -73,7 +72,6 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 			exit(1);
 		}
 	}
-
 }
 
 /**
