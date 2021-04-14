@@ -162,7 +162,8 @@ list_t *env_list(list_t *head)
 
 	while (environ[ite] != NULL)
 	{
-		createNodeList(&head, environ[ite]);
+		if (createNodeList(&head, environ[ite]) == NULL)
+			return (NULL);
 		ite++;
 	}
 

@@ -8,7 +8,7 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <fcntl.h>
-
+#include <errno.h>
 
 /**
  * struct list_s - structure containing useful variables
@@ -35,6 +35,8 @@ typedef struct prm_s
 	char *buffer;
 	char *name;
 	list_t *head;
+	int ite;
+	int status;
 } prm_t;
 
 /**

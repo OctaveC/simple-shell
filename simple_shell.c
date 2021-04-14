@@ -22,17 +22,17 @@ void executeCmd(prm_t *prm)
 
 	if (execve(truc, prm->token_array, environ) == -1)
 	{
+		error_handler(prm, "not found");
 		while (prm->token_array[ite3])
 		{
 			free(prm->token_array[ite3]);
 			ite3++;
 		}
 		free(prm->token_array);
-		perror(prm->name);
 		free_list(prm->head);
 		/*	free(prm->name); */
 		free(prm);
-		exit(0);
+		exit(127);
 	}
 }
 
@@ -60,7 +60,20 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 		executeCmd(prm);
 	}
 	else
-		waitpid(pids[*(ite)], &status, WUNTRACED);
+	{
+		if (waitpid(pids[*(ite)], &status, WUNTRACED) != -1)
+		{
+			if (WIFEXITED(status))
+			{
+				prm->status = WEXITSTATUS(status);
+			}
+		}
+		else {
+			perror(prm->name);
+			exit(1);
+		}
+	}
+
 }
 
 /**
@@ -136,23 +149,33 @@ void CtrlC(int i)
  */
 int main(int argc __attribute__((unused)), char *argv[])
 {
-	int ite = 0;
-	pid_t pids[20];
+	int ite;
+	pid_t pids[256] = {0};
 	prm_t *prm;
 
 	prm = malloc(sizeof(prm_t) * 1);
+	if (prm == NULL)
+	{	perror(argv[0]);
+		return (1);
+	}
 
+	prm->status = 0;
 	prm->head = NULL;
 	prm->head = env_list(prm->head);
+	if (prm->head == NULL)
+	{       perror(argv[0]);
+		return (1);
+	}
 	prm->buffer = "";
 	prm->name = argv[0];
 
 	signal(SIGINT, CtrlC);
 
-	for (ite = 0;; ite++)
+	for (ite = 1;; ite++)
 	{
+		prm->ite = ite;
 		write(STDIN_FILENO, "$ ", 2);
-		parsingManager(&ite, &pids[20], prm);
+		parsingManager(&ite, &pids[256], prm);
 	}
 	return (0);
 }
