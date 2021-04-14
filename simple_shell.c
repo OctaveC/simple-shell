@@ -23,7 +23,7 @@ void executeCmd(prm_t *prm)
 	free(str2);
 
 	if (execve(path, prm->token_array, environ) == -1)
-	{	
+	{
 		if (errno == ENOENT)
 			error_handler(prm, "not found");
 		if (errno == EACCES)
