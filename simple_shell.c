@@ -21,8 +21,11 @@ void executeCmd(prm_t *prm)
 	free(str2);
 
 	if (execve(path, prm->token_array, environ) == -1)
-	{
-		error_handler(prm, "not found");
+	{	
+		if (errno == ENOENT)
+			error_handler(prm, "not found");
+		if (errno == EACCES)
+			error_handler(prm, "Permission denied");
 		while (prm->token_array[ite3])
 		{
 			free(prm->token_array[ite3]);
@@ -31,7 +34,10 @@ void executeCmd(prm_t *prm)
 		free(prm->token_array);
 		free_list(prm->head);
 		free(prm);
-		exit(127);
+		if (errno == ENOENT)
+			exit(127);
+		if (errno == EACCES)
+			exit(126);
 	}
 }
 
