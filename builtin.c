@@ -133,39 +133,43 @@ void unsetenv_blt(prm_t *prm)
 void cd_blt(prm_t *prm)
 {
 	int chdir_return = 0;
-	char buffer_cwd[500];
+	char buffer_cwd[500], *tmp;
 
 	if (prm->token_array[1] == NULL || prm->token_array[1][0] == '~')
 	{
 		if (_getenvvalue(prm, "HOME") != NULL)
+		{
+			tmp =  getcwd(buffer_cwd, 500);
 			chdir_return = chdir(_getenvvalue(prm, "HOME"));
+		}
 		else
-			chdir_return = -1;
+			return;
 	}
 	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
 		if (_getenvvalue(prm, "OLDPWD") == NULL)
 		{
-			_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm);
+			tmp =  getcwd(buffer_cwd, 500);
+			_puts(getcwd(buffer_cwd, 500));
 			chdir_return = 0;
 		}
 		else
 		{
+			tmp =  getcwd(buffer_cwd, 500);
 			chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
 			_puts(getcwd(buffer_cwd, 500));
 		}
 	}
 	else
+	{
+		tmp =  getcwd(buffer_cwd, 500);
 		chdir_return = chdir(prm->token_array[1]);
-
+	}
 	if (chdir_return == -1)
 	{
 		perror(prm->name);
 		return;
 	}
-/*	if (_getenvvalue(prm, "PWD") != NULL) */
-/*		_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm); */
-/*	else */
-	_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
+	_setenv("OLDPWD", tmp, prm);
 	_setenv("PWD", getcwd(buffer_cwd, 500), prm);
 }

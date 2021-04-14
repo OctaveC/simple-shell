@@ -78,6 +78,8 @@ char *_getenvnode(prm_t *prm, char *name)
  * @name: name of the variable.
  * @value: value of the variable.
  * @prm: the pointer of our structure.
+ *
+ * Return: 0 or -1
  */
 int _setenv(char *name, char *value, prm_t *prm)
 {
@@ -127,6 +129,8 @@ int _setenv(char *name, char *value, prm_t *prm)
  * _unsetenv - Remove an environment variable.
  * @name: name of the variable.
  * @prm: the pointer of our structure.
+ *
+ * Return: 0 or -1
  */
 int _unsetenv(char *name, prm_t *prm)
 {
