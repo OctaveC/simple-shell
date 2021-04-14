@@ -50,13 +50,13 @@ void setenv_blt(prm_t *prm)
 	char *name2;
 
 	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
-	{	perror(prm->name), prm->status = 2;
+	{	perror(prm->name);
 		return;
 	}
 	while (prm->token_array[1][ite] != '\0')
 	{
 		if (prm->token_array[1][ite] == '=')
-		{	perror(prm->name), prm->status = 2;
+		{	perror(prm->name);
 			return;
 		}
 		ite++;
@@ -64,7 +64,7 @@ void setenv_blt(prm_t *prm)
 	name2 = _calloc(sizeof(char), (_strlen(prm->token_array[1]) +
 				       _strlen(prm->token_array[2]) + 2));
 	if (name2 == NULL)
-	{	perror(prm->name), prm->status = 2;
+	{	perror(prm->name);
 		return;
 	}
 	_strcat(name2, prm->token_array[1]), _strcat(name2, "=");
@@ -82,7 +82,6 @@ void setenv_blt(prm_t *prm)
 		insert_node_at_index(&prm->head, index, name2);
 		free(name2);
 	}
-	prm->status = 0;
 }
 
 /**
@@ -97,7 +96,7 @@ void unsetenv_blt(prm_t *prm)
 
 	if (prm->token_array[1] == NULL)
 	{
-		perror(prm->name), prm->status = 2;
+		perror(prm->name);
 		return;
 	}
 
@@ -105,7 +104,7 @@ void unsetenv_blt(prm_t *prm)
 	{
 		if (prm->token_array[1][ite2] == '=')
 		{
-			perror(prm->name), prm->status = 2;
+			perror(prm->name);
 			return;
 		}
 		ite2++;
@@ -114,7 +113,7 @@ void unsetenv_blt(prm_t *prm)
 	str = _getenvnode(prm, prm->token_array[1]);
 	if (str == NULL)
 	{
-		perror(prm->name), prm->status = 2;
+		perror(prm->name);
 		return;
 	}
 
@@ -125,7 +124,6 @@ void unsetenv_blt(prm_t *prm)
 	}
 
 	delete_node_at_index(&prm->head, pos);
-	prm->status = 0;
 }
 
 /**
