@@ -50,13 +50,13 @@ void setenv_blt(prm_t *prm)
 	char *name2;
 
 	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
-	{	perror(prm->name);
+	{	perror(prm->name), prm->status = 2;
 		return;
 	}
 	while (prm->token_array[1][ite] != '\0')
 	{
 		if (prm->token_array[1][ite] == '=')
-		{	perror(prm->name);
+		{	perror(prm->name), prm->status = 2;
 			return;
 		}
 		ite++;
@@ -64,7 +64,7 @@ void setenv_blt(prm_t *prm)
 	name2 = _calloc(sizeof(char), (_strlen(prm->token_array[1]) +
 				       _strlen(prm->token_array[2]) + 2));
 	if (name2 == NULL)
-	{       perror(prm->name);
+	{	perror(prm->name), prm->status = 2;
 		return;
 	}
 	_strcat(name2, prm->token_array[1]);
@@ -86,7 +86,6 @@ void setenv_blt(prm_t *prm)
 	}
 }
 
-
 /**
  * unsetenv_blt - deletes an environemental variable from the environement
  * @prm: our structure, containing various parameters
@@ -100,12 +99,16 @@ void unsetenv_blt(prm_t *prm)
 	if (prm->token_array[1] == NULL)
 	{
 		perror(prm->name);
+		prm->status = 2;
 	}
 
 	while (prm->token_array[1][ite2] != '\0')
 	{
 		if (prm->token_array[1][ite2] == '=')
-			perror(prm->name), exit(0);
+		{
+			perror(prm->name), prm->status = 2;
+			exit(0);
+		}
 		ite2++;
 	}
 
@@ -141,7 +144,7 @@ void cd_blt(prm_t *prm)
 
 	if (chdir_return == -1)
 	{
-		perror(prm->name);
+		perror(prm->name), prm->status = 2;
 		return;
 	}
 
