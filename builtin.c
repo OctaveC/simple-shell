@@ -82,6 +82,7 @@ void setenv_blt(prm_t *prm)
 		insert_node_at_index(&prm->head, index, name2);
 		free(name2);
 	}
+	prm->status = 0;
 }
 
 /**
@@ -124,6 +125,7 @@ void unsetenv_blt(prm_t *prm)
 	}
 
 	delete_node_at_index(&prm->head, pos);
+	prm->status = 0;
 }
 
 /**
