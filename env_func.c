@@ -133,13 +133,18 @@ void _unsetenv(char *name, prm_t *prm)
 	{
 		if (name[ite2] == '=')
 		{
-			perror(prm->name), exit(0);
+			perror(prm->name);
 			return;
 		}
 		ite2++;
 	}
 
 	str = _getenvnode(prm, name);
+	if (str == NULL)
+	{
+		perror(prm->name);
+		return;
+	}
 
 	while (h->str != str)
 	{

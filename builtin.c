@@ -96,8 +96,8 @@ void unsetenv_blt(prm_t *prm)
 
 	if (prm->token_array[1] == NULL)
 	{
-		perror(prm->name);
-		prm->status = 2;
+		perror(prm->name), prm->status = 2;
+		return;
 	}
 
 	while (prm->token_array[1][ite2] != '\0')
@@ -105,12 +105,17 @@ void unsetenv_blt(prm_t *prm)
 		if (prm->token_array[1][ite2] == '=')
 		{
 			perror(prm->name), prm->status = 2;
-			exit(0);
+			return;
 		}
 		ite2++;
 	}
 
 	str = _getenvnode(prm, prm->token_array[1]);
+	if (str == NULL)
+	{
+		perror(prm->name), prm->status = 2;
+		return;
+	}
 
 	while (h->str != str)
 	{
