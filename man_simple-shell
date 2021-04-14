@@ -56,8 +56,7 @@ Please use the help command to get information on the built-ins, type 'help help
 echo "ls" | ./simple-shell
 
 .B generate-authors.sh  man_simple-shell  README.md
-.SH BUGS
-Still a few memory leaks for setenv and unsetenv.
+
 .SH AUTHOR
 Nathan Lapeyre and Octave Collombel for HolbertonSchool project.
 .SH SEE ALSO
