@@ -60,3 +60,25 @@ void error_handler(prm_t *prm, char *error_str)
 
 	free(ite_str);
 }
+
+/**
+ * error_handler_cd -handles errors
+ * @prm: command that you need help with
+ * @error_str: the string to print the error.
+ */
+void error_handler_cd(prm_t *prm, char *error_str)
+{
+	char *ite_str = _itoa(prm->ite);
+
+	write(STDERR_FILENO, prm->name, _strlen(prm->name));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, ite_str, _strlen(ite_str));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, prm->token_array[0], _strlen(prm->token_array[0]));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, error_str, _strlen(error_str));
+	write(STDERR_FILENO, prm->token_array[1], _strlen(prm->token_array[1]));
+
+	write(STDERR_FILENO, "\n", 1);
+	free(ite_str);
+}

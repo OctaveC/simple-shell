@@ -74,6 +74,7 @@ void (*check_builtin(char *token))(prm_t *);
 
 /* function that handle errors */
 void error_handler(prm_t *prm, char *error_str);
+void error_handler_cd(prm_t *prm, char *error_str);
 
 /* built-ins */
 void cd_blt(prm_t *prm);

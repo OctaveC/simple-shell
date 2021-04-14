@@ -142,20 +142,20 @@ void cd_blt(prm_t *prm)
 			tmp =  getcwd(buffer_cwd, 500);
 			chdir_return = chdir(_getenvvalue(prm, "HOME"));
 		}
-		else
+		else if (prm->token_array[1] == NULL)
 			return;
+		else if (prm->token_array[1][0] == '~')
+			chdir_return = -1;
 	}
 	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
 		if (_getenvvalue(prm, "OLDPWD") == NULL)
-		{
-			tmp =  getcwd(buffer_cwd, 500);
+		{       tmp =  getcwd(buffer_cwd, 500);
 			_puts(getcwd(buffer_cwd, 500));
 			chdir_return = 0;
 		}
 		else
-		{
-			tmp =  getcwd(buffer_cwd, 500);
+		{       tmp =  getcwd(buffer_cwd, 500);
 			chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
 			_puts(getcwd(buffer_cwd, 500));
 		}
@@ -167,7 +167,7 @@ void cd_blt(prm_t *prm)
 	}
 	if (chdir_return == -1)
 	{
-		perror(prm->name);
+		error_handler_cd(prm, "can't cd to ");
 		return;
 	}
 	_setenv("OLDPWD", tmp, prm);
