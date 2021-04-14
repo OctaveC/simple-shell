@@ -136,16 +136,24 @@ void cd_blt(prm_t *prm)
 	char buffer_cwd[500];
 
 	if (prm->token_array[1] == NULL || prm->token_array[1][0] == '~')
-		chdir_return = chdir(_getenvvalue(prm, "HOME"));
+	{
+		if (_getenvvalue(prm, "HOME") != NULL)
+			chdir_return = chdir(_getenvvalue(prm, "HOME"));
+		else
+			chdir_return = -1;
+	}
 	else if (prm->token_array[1][0] == '-' && !prm->token_array[1][1])
 	{
-		chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
-		if (chdir_return == -1)
+		if (_getenvvalue(prm, "OLDPWD") == NULL)
 		{
 			_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
 			chdir_return = 0;
 		}
-		_puts(getcwd(buffer_cwd, 500));
+		else
+		{
+			chdir_return = chdir(_getenvvalue(prm, "OLDPWD"));
+			_puts(getcwd(buffer_cwd, 500));
+		}
 	}
 	else
 		chdir_return = chdir(prm->token_array[1]);
