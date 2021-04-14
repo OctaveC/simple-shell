@@ -16,7 +16,7 @@ void exit_blt(prm_t *prm)
 
 	if (prm->token_array[1] != NULL)
 	{
-		prm->status = _atoi(prm->token_array[1]);
+		status = _atoi(prm->token_array[1]);
 	}
 	while (prm->token_array[ite2] != NULL)
 	{
