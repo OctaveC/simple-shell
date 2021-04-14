@@ -34,6 +34,7 @@ typedef struct prm_s
 	char **token_array;
 	char *buffer;
 	char *name;
+	int status;
 	list_t *head;
 } prm_t;
 

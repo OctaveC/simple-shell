@@ -25,7 +25,7 @@ char *_getline(prm_t *prm)
 			free(prm->buffer);
 			free(prm);
 			write(STDIN_FILENO, "\n", 1);
-			exit(0);
+			exit(prm->status);
 		}
 
 		if (ite >= buffersize - 1)
