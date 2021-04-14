@@ -49,12 +49,10 @@ void setenv_blt(prm_t *prm)
 	list_t *h = prm->head;
 	char *name2;
 
-	if (prm->token_array[1] == NULL)
+	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
 	{	perror(prm->name), prm->status = 2;
 		return;
 	}
-	if (!prm->token_array[2])
-		prm->token_array[2] = "";
 	while (prm->token_array[1][ite] != '\0')
 	{
 		if (prm->token_array[1][ite] == '=')
