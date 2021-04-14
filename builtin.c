@@ -163,9 +163,9 @@ void cd_blt(prm_t *prm)
 		perror(prm->name);
 		return;
 	}
-	if (_getenvvalue(prm, "PWD") != NULL)
-		_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm);
-	else
-		_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
+/*	if (_getenvvalue(prm, "PWD") != NULL) */
+/*		_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm); */
+/*	else */
+	_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
 	_setenv("PWD", getcwd(buffer_cwd, 500), prm);
 }
