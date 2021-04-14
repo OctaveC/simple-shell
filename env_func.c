@@ -13,6 +13,8 @@ char *_getenvvalue(prm_t *prm, char *name)
 	int ite = 0;
 	list_t *h;
 
+	if (name == NULL)
+		return (NULL);
 	h = prm->head;
 	envar = NULL;
 	while (h != NULL)
@@ -26,11 +28,16 @@ char *_getenvvalue(prm_t *prm, char *name)
 		}
 		h = h->next;
 	}
-
+	if (envar == NULL)
+	{
+		/*	printf("first, here\n"); */
+		return (NULL);
+	}
 	envar_return = _strchr(envar, '=');
 	if (envar_return == NULL || envar_return + 1 == NULL)
-		return ("");
-
+		return (NULL);
+/*	printf("%s\n", envar_return); */
+/*	printf("%s_1\n", (envar_return + 1)); */
 	return (envar_return + 1);
 }
 
@@ -47,6 +54,8 @@ char *_getenvnode(prm_t *prm, char *name)
 	int ite = 0;
 	list_t *h;
 
+	if (name == NULL)
+		return (NULL);
 	h = prm->head;
 	envar = NULL;
 	while (h != NULL)
