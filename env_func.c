@@ -79,7 +79,7 @@ char *_getenvnode(prm_t *prm, char *name)
  * @value: value of the variable.
  * @prm: the pointer of our structure.
  */
-void _setenv(char *name, char *value, prm_t *prm)
+int _setenv(char *name, char *value, prm_t *prm)
 {
 	char *str;
 	int ite = 0, index = 0;
@@ -88,20 +88,20 @@ void _setenv(char *name, char *value, prm_t *prm)
 
 	if (name == NULL || value == NULL)
 	{	perror(prm->name);
-		return;
+		return (-1);
 	}
 	while (name[ite] != '\0')
 	{
 		if (name[ite] == '=')
 		{	perror(prm->name);
-			return;
+			return (-1);
 		}
 		ite++;
 	}
 	name2 = _calloc(sizeof(char), (_strlen(name) + _strlen(value) + 2));
 	if (name2 == NULL)
 	{       perror(prm->name);
-		return;
+		return (-1);
 	}
 	_strcat(name2, name);
 	_strcat(name2, "=");
@@ -120,6 +120,7 @@ void _setenv(char *name, char *value, prm_t *prm)
 		insert_node_at_index(&prm->head, index, name2);
 		free(name2);
 	}
+	return (0);
 }
 
 /**
@@ -127,7 +128,7 @@ void _setenv(char *name, char *value, prm_t *prm)
  * @name: name of the variable.
  * @prm: the pointer of our structure.
  */
-void _unsetenv(char *name, prm_t *prm)
+int _unsetenv(char *name, prm_t *prm)
 {
 	char *str;
 	int pos = 0, ite2 = 0;
@@ -136,14 +137,14 @@ void _unsetenv(char *name, prm_t *prm)
 	if (name == NULL)
 	{
 		perror(prm->name);
-		return;
+		return (-1);
 	}
 	while (name[ite2] != '\0')
 	{
 		if (name[ite2] == '=')
 		{
 			perror(prm->name);
-			return;
+			return (-1);
 		}
 		ite2++;
 	}
@@ -152,7 +153,7 @@ void _unsetenv(char *name, prm_t *prm)
 	if (str == NULL)
 	{
 		perror(prm->name);
-		return;
+		return (-1);
 	}
 
 	while (h->str != str)
@@ -162,6 +163,7 @@ void _unsetenv(char *name, prm_t *prm)
 	}
 
 	delete_node_at_index(&prm->head, pos);
+	return (0);
 }
 
 /**

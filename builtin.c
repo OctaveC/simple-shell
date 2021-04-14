@@ -132,7 +132,7 @@ void unsetenv_blt(prm_t *prm)
  */
 void cd_blt(prm_t *prm)
 {
-	int chdir_return;
+	int chdir_return = 0;
 	char buffer_cwd[500];
 
 	if (prm->token_array[1] == NULL || prm->token_array[1][0] == '~')
@@ -146,7 +146,7 @@ void cd_blt(prm_t *prm)
 	{
 		if (_getenvvalue(prm, "OLDPWD") == NULL)
 		{
-			_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
+			_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm);
 			chdir_return = 0;
 		}
 		else
@@ -163,7 +163,9 @@ void cd_blt(prm_t *prm)
 		perror(prm->name);
 		return;
 	}
-
-	_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
+	if (_getenvvalue(prm, "PWD") != NULL)
+		_setenv("OLDPWD", getcwd(buffer_cwd, 500), prm);
+	else
+		_setenv("OLDPWD", _getenvvalue(prm, "PWD"), prm);
 	_setenv("PWD", getcwd(buffer_cwd, 500), prm);
 }
