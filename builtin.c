@@ -49,10 +49,12 @@ void setenv_blt(prm_t *prm)
 	list_t *h = prm->head;
 	char *name2;
 
-	if (prm->token_array[1] == NULL || prm->token_array[2] == NULL)
+	if (prm->token_array[1] == NULL)
 	{	perror(prm->name), prm->status = 2;
 		return;
 	}
+	if (!prm->token_array[2])
+		prm->token_array[2] = "";
 	while (prm->token_array[1][ite] != '\0')
 	{
 		if (prm->token_array[1][ite] == '=')
@@ -67,8 +69,7 @@ void setenv_blt(prm_t *prm)
 	{	perror(prm->name), prm->status = 2;
 		return;
 	}
-	_strcat(name2, prm->token_array[1]);
-	_strcat(name2, "=");
+	_strcat(name2, prm->token_array[1]), _strcat(name2, "=");
 	_strcat(name2, prm->token_array[2]);
 	str = _getenvnode(prm, prm->token_array[1]);
 	if (str == NULL)
@@ -76,8 +77,7 @@ void setenv_blt(prm_t *prm)
 	else if (prm->token_array[2] != NULL)
 	{
 		while (h->str != str)
-		{
-			h = h->next;
+		{	h = h->next;
 			index++;
 		}
 		delete_node_at_index(&prm->head, index);
