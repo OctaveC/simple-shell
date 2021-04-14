@@ -30,14 +30,11 @@ char *_getenvvalue(prm_t *prm, char *name)
 	}
 	if (envar == NULL)
 	{
-		/*	printf("first, here\n"); */
 		return (NULL);
 	}
 	envar_return = _strchr(envar, '=');
 	if (envar_return == NULL || envar_return + 1 == NULL)
 		return (NULL);
-/*	printf("%s\n", envar_return); */
-/*	printf("%s_1\n", (envar_return + 1)); */
 	return (envar_return + 1);
 }
 

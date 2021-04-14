@@ -170,9 +170,6 @@ int main(int argc __attribute__((unused)), char *argv[])
 
 	signal(SIGINT, CtrlC);
 
-/*	if (_getenvvalue(prm, "jefineik") == NULL) */
-/*		printf("HERE"); */
-/*	_unsetenv("OLDPWD", prm); */
 	for (ite = 1;; ite++)
 	{
 		prm->ite = ite;
