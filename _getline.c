@@ -12,6 +12,7 @@ char *_getline(prm_t *prm)
 	char c;
 	int ite = 0;
 	int buffersize = 256;
+	int status = prm->status;
 
 	prm->buffer = _calloc(sizeof(char), buffersize);
 	c = '\0';
@@ -25,7 +26,7 @@ char *_getline(prm_t *prm)
 			free(prm->buffer);
 			free(prm);
 			write(STDIN_FILENO, "\n", 1);
-			exit(prm->status);
+			exit(status);
 		}
 
 		if (ite >= buffersize - 1)

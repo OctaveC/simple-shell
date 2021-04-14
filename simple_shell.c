@@ -9,7 +9,7 @@
 void executeCmd(prm_t *prm)
 {
 	char *str, *str2;
-	char *truc;
+	char *path;
 	int ite3 = 0;
 
 	str = _getenvvalue(prm, "PATH");
@@ -20,7 +20,7 @@ void executeCmd(prm_t *prm)
 
 	free(str2);
 
-	if (execve(truc, prm->token_array, environ) == -1)
+	if (execve(path, prm->token_array, environ) == -1)
 	{
 		error_handler(prm, "not found");
 		while (prm->token_array[ite3])
@@ -67,7 +67,8 @@ void create_child(pid_t pids[], int *ite, prm_t *prm)
 				prm->status = WEXITSTATUS(status);
 			}
 		}
-		else {
+		else
+		{
 			perror(prm->name);
 			exit(1);
 		}

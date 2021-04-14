@@ -7,6 +7,7 @@
 void exit_blt(prm_t *prm)
 {
 	int ite2 = 0;
+	int status = prm->status;
 
 	if (prm == NULL)
 	{
@@ -25,7 +26,7 @@ void exit_blt(prm_t *prm)
 	free_list(prm->head);
 	free(prm->token_array);
 	free(prm);
-	exit(prm->status);
+	exit(status);
 }
 
 /**

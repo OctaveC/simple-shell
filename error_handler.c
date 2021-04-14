@@ -1,6 +1,11 @@
 #include "shell-header.h"
 
-char *print_int(int num)
+/**
+ * _itoa - Construct a string representation of an integer.
+ * @num: base value.
+ * Return: return the result of the conversion.
+ */
+char *_itoa(int num)
 {
 	int ite, rem = 0, len = 0;
 	unsigned int num_decoy, unsigned_num;
@@ -38,10 +43,11 @@ char *print_int(int num)
 /**
  * error_handler -handles errors
  * @prm: command that you need help with
+ * @error_str: the string to print the error.
  */
 void error_handler(prm_t *prm, char *error_str)
 {
-	char *ite_str = print_int(prm->ite);
+	char *ite_str = _itoa(prm->ite);
 
 	write(STDERR_FILENO, prm->name, _strlen(prm->name));
 	write(STDERR_FILENO, ": ", 2);
