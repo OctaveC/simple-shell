@@ -64,7 +64,7 @@ void executeCmd(prm_t *prm);
 char *_getline(prm_t *prm);
 
 /* function replacing which */
-char *_which(char *argv[], char *str);
+char *_which(char *argv[], char *str, prm_t *prm);
 
 /* function replacing strtok */
 char *_strtok(char *str, char *sep, char **saveptr);

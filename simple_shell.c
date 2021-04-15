@@ -23,7 +23,7 @@ void executeCmd(prm_t *prm)
 	else
 		str2 = _strdup(str);
 /*	printf("test2\n"); */
-	path = _which(prm->token_array, str2);
+	path = _which(prm->token_array, str2, prm);
 
 	free(str2);
 /*	printf("test3\n"); */
