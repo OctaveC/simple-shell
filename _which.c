@@ -9,7 +9,7 @@
  */
 char *_which(char *argv[], char *str)
 {
-	char *token, *saveptr = NULL, *token2, *name2;
+	char *token, *saveptr = NULL, *token2;
 	int ite = 0, check = 0;
 
 	if (!argv[0])
