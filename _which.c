@@ -14,7 +14,7 @@ char *_which(char *argv[], char *str)
 
 	if (!argv[0])
 		return ("Error");
-	if (!str)
+	if (!str && '/')
 		check = 1;
 	else if ((argv[0][0] == '.' && !argv[0][1]) ||
 		 (argv[0][0] == '/' && !argv[0][1]))
