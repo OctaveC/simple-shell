@@ -22,13 +22,17 @@ void exit_blt(prm_t *prm)
 			else
 			{
 				error_handler_cd(prm, "Illegal number: ");
+				prm->status = 2;
 				return;
 			}
 			ite3++;
 		}
 		status = _atoi(prm->token_array[1]);
 		if (status < 0)
+		{
+			prm->status = 2;
 			return;
+		}
 	}
 	while (prm->token_array[ite2] != NULL)
 	{
