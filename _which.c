@@ -12,18 +12,19 @@ char *_which(char *argv[], char *str)
 	char *token, *saveptr = NULL, *token2;
 	int ite = 0, check = 0;
 
-	if (!str[0])
+	if (!argv[0])
 		return ("Error");
-	if ((argv[0][0] == '.' && !argv[0][1]) || (argv[0][0] == '/' && !argv[0][1]))
+	if (!str)
+		check = 1;
+	else if ((argv[0][0] == '.' && !argv[0][1]) ||
+		 (argv[0][0] == '/' && !argv[0][1]))
 		check = 1;
 	else if (argv[0][0] == '.' && argv[0][1] == '.' && !argv[0][2])
 		check = 1;
 	if (str[0] == ':' || (argv[0][0] == '.' && argv[0][1] == '/') || check == 1)
 	{
 		if (access(argv[0], F_OK) == 0)
-		{
 			return (argv[0]);
-		}
 	}
 	for (ite = 1;; ite++, str = NULL)
 	{

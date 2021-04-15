@@ -12,14 +12,21 @@ void executeCmd(prm_t *prm)
 	char *path;
 	int ite3 = 0;
 
+/*	printf("test1\n"); */
 	str = _getenvvalue(prm, "PATH");
-
-	str2 = _strdup(str);
-
+/*	printf("%s_str1\n", str); */
+	if (str == NULL)
+	{
+		str2 = _calloc(1, 1);
+		/*	printf("%s_str2\n", str2); */
+	}
+	else
+		str2 = _strdup(str);
+/*	printf("test2\n"); */
 	path = _which(prm->token_array, str2);
 
 	free(str2);
-
+/*	printf("test3\n"); */
 	if (execve(path, prm->token_array, environ) == -1)
 	{
 		if (errno == ENOENT)
