@@ -12,7 +12,7 @@ char *_which(char *argv[], char *str)
 	char *token, *saveptr = NULL, *token2;
 	int ite = 0, check = 0;
 
-	if (!str || !str[0])
+	if (!str[0])
 		return ("Error");
 	if ((argv[0][0] == '.' && !argv[0][1]) || (argv[0][0] == '/' && !argv[0][1]))
 		check = 1;
