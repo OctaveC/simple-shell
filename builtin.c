@@ -6,7 +6,7 @@
  */
 void exit_blt(prm_t *prm)
 {
-	int ite2 = 0;
+	int ite2 = 0, ite3 = 0;
 	int status = prm->status;
 
 	if (prm == NULL)
