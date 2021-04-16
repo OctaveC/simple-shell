@@ -17,24 +17,21 @@ char *_which(char *argv[], char *str, prm_t *prm)
 	if (!argv[0])
 		return ("Error");
 	if (!str && c_path != NULL)
-	{name2 = _calloc(sizeof(char), (_strlen(c_path) + _strlen(argv[0]) + 2));
+	{
+		name2 = _calloc(sizeof(char), (_strlen(c_path) + _strlen(argv[0]) + 2));
 		_strcat(name2, c_path), _strcat(name2, "/"), _strcat(name2, argv[0]);
 		if (access(name2, F_OK) == 0)
-		{       free(name2);
+		{	free(name2);
 			return ("Error");
 		}
 		free(name2);
 	}
 	if (!str)
 		check = 1;
-	else if ((argv[0][0] == '.' && !argv[0][1]) ||
-		 (argv[0][0] == '/' && !argv[0][1]))
-		check = 1;
-	else if (argv[0][0] == '.' && argv[0][1] == '.' && !argv[0][2])
-		check = 1;
-	if (str[0] == ':' || (argv[0][0] == '.' && argv[0][1] == '/') || check == 1)
-		if (access(argv[0], F_OK) == 0)
-			return (argv[0]);
+	if (check == 1 || str[0] == ':' || (argv[0][0] == '.' && argv[0][1] == '/'))
+	{
+		return (argv[0]);
+	}
 	for (ite = 1;; ite++, str = NULL)
 	{
 		token = _strtok(str, ":=", &saveptr);

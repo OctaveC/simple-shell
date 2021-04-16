@@ -17,7 +17,8 @@ void executeCmd(prm_t *prm)
 /*	printf("%s_str1\n", str); */
 	if (str == NULL)
 	{
-		str2 = _calloc(1, 1);
+		/* str2 = _calloc(1, 1); */
+		str2 = NULL;
 		/*	printf("%s_str2\n", str2); */
 	}
 	else
@@ -25,7 +26,8 @@ void executeCmd(prm_t *prm)
 /*	printf("test2\n"); */
 	path = _which(prm->token_array, str2, prm);
 
-	free(str2);
+	if (str2 != NULL)
+		free(str2);
 /*	printf("test3\n"); */
 	if (execve(path, prm->token_array, environ) == -1)
 	{
